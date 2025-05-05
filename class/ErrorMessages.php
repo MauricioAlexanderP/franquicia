@@ -1,0 +1,44 @@
+<?php
+
+namespace class;
+
+class ErrorMessages
+{
+  /**
+   * Mensaje de error para un campo vacío.
+   * Nomenclatura: "ERROR_CONTROLADOR_METHODO_ACCION"
+   */
+  const ERROR_LOGIN_LOGIN_LOGIN = "b6480229f6015da3f9ddfe4806970cc9";
+  const ERROR_LOGIN_CAMPO_VACIO = "a2b0f3c4d5e6f7g8h9i0j1k2l3m4n5o6";
+  const ERROR_TIENDA_NEWTIENDA_DATOSFALTANTES = '02ff8d598c813d35001edfe2eec61604';
+  const ERROR_TIENDA_GETTIENDABYID_DATOSFALTANTES = '357263a8d5dc730dd61b366de11a4a31';
+  const ERROR_TIENDA_UPDATETIENDA_DATOSFALTANTES = 'a2b0f3c4d5e6f7g8h9i0j1k2l3m4n5o6';
+
+  private $errorList = [];
+
+  public function __construct()
+  {
+    $this->errorList = [
+      ErrorMessages::ERROR_LOGIN_LOGIN_LOGIN => "El usuario o la contraseña no son válidos.",
+      ErrorMessages::ERROR_LOGIN_CAMPO_VACIO => "Por favor, completa todos los campos.",
+      ErrorMessages::ERROR_TIENDA_NEWTIENDA_DATOSFALTANTES => "Faltan datos requeridos.",
+      ErrorMessages::ERROR_TIENDA_GETTIENDABYID_DATOSFALTANTES => "No se proporcionó ID",
+      ErrorMessages::ERROR_TIENDA_UPDATETIENDA_DATOSFALTANTES => "Datos faltantes para actualizar la tienda",
+    ];
+  }
+
+  public function get($hash)
+  {
+    return $this->errorList[$hash];
+  }
+
+  public function existsKey($key)
+  {
+    if(array_key_exists($key, $this->errorList)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+}

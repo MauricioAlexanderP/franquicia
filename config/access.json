@@ -1,0 +1,29 @@
+{
+  "sites":[
+    
+    {
+      "site": "",
+      "access": "public",
+      "role": ""
+    },
+    {
+      "site": "tienda",
+      "access": "private",
+      "role": 1
+    },
+    {
+      "site": "usuarios",
+      "access": "private",
+      "role": 1
+    },
+    {
+      "site": "categorias",
+      "access": "private",
+      "role": 1
+    }
+  ],
+  
+  "default-sites":{
+    "1" : "tienda"
+  }
+}

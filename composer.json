@@ -1,0 +1,23 @@
+{
+    "name": "mauricio/franquicia",
+    "description": "Proyecto de modulo",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "Mauricio\\Franquicia\\": "src/",
+            "controllers\\": "controllers/",
+            "models\\": "models/",
+            "libs\\": "libs/",
+            "views\\": "views/",
+            "class\\": "class/"
+
+        }
+    },
+    "authors": [
+        {
+            "name": "Mauricio Perez",
+            "email": "mauricio.perez24@itca.edu.sv"
+        }
+    ],
+    "require": {}
+}
