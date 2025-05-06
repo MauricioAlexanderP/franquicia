@@ -29,6 +29,8 @@ class TipoTiendaModel extends Model implements IModel
    */
   private $descripcion;
 
+  private $estado;
+
   /**
    * Constructor de la clase TipoTiendaModel.
    *
@@ -70,7 +72,7 @@ class TipoTiendaModel extends Model implements IModel
     $items = [];
 
     try{
-      $query = $this->db->consulta("SELECT * FROM tipo_tienda");
+      $query = $this->db->consulta("SELECT * FROM tipo_tienda WHERE estado = 1");
 
       while ($p = $query->fetch_assoc()) {
         $item = new TipoTiendaModel();
@@ -98,6 +100,7 @@ class TipoTiendaModel extends Model implements IModel
       $quiery = "SELECT * FROM tipo_tienda WHERE tipo_tienda_id = '$id'";
       $rs = $this->db->consulta($quiery);
       $tipo_tienda = $rs->fetch_assoc();
+
       $this->setTipoTiendaId($tipo_tienda['tipo_tienda_id']);
       $this->setTipo($tipo_tienda['tipo']);
       $this->setDescripcion($tipo_tienda['descripcion']);
@@ -135,8 +138,8 @@ class TipoTiendaModel extends Model implements IModel
   public function update()
   {
     try {
-      $query = "UPDATE tipo_tienda SET tipo = '$this->tipo', descripcion = '$this->descripcion' 
-      WHERE tipo_tienda_id = '$this->tipo_tienda_id'";
+      $query = "UPDATE tipo_tienda SET tipo = '$this->tipo', descripcion = '$this->descripcion', 
+      estado = '$this->estado' WHERE tipo_tienda_id = '$this->tipo_tienda_id'";
       $this->db->consulta($query);
       return true;
     } catch (\Throwable $th) {
@@ -159,6 +162,14 @@ class TipoTiendaModel extends Model implements IModel
     return $this;
   }
 
+  public function toArray(){
+    return [
+      'tipo_tienda_id' => $this->tipo_tienda_id,
+      'tipo' => $this->tipo,
+      'descripcion' => $this->descripcion
+    ];
+  }
+
   public function getTipoTiendaId(){ return $this->tipo_tienda_id; }
   public function setTipoTiendaId($tipo_tienda_id){ $this->tipo_tienda_id = $tipo_tienda_id; }
 
@@ -167,5 +178,8 @@ class TipoTiendaModel extends Model implements IModel
 
   public function getDescripcion() { return $this->descripcion; }
   public function setDescripcion($descripcion){ $this->descripcion = $descripcion;}
+
+  public function getEstado() { return $this->estado; }
+  public function setEstado($estado){ $this->estado = $estado;}
   
 }

@@ -8,7 +8,7 @@ use models\TiendaModel;
 use models\TipoTiendaModel;
 use class\ErrorMessages;
 use class\SuccessMessages;
-
+use controllers\SessionController;
 /**
  * Class TiendaController
  *
@@ -88,10 +88,10 @@ class TiendaController extends SessionController
     $items = $tienda->get($id); // Obtiene el objeto TiendaModel
     if ($items) {
       echo json_encode($items->toArray());
+      error_log("TIENDACONTROLLLER::getTiendaById -> array: " . print_r($items->toArray(), true));
     } else {
       echo json_encode(['error' => 'No se encontró la tienda']);
     } 
-  
   }
 
   public function updateTienda()

@@ -26,8 +26,8 @@ $tipoTienda = $this->d['tipoTienda'];
   <!-- Sidebar -->
   <nav class="sidebar">
     <h4><i class="bi bi-shop-window me-2"></i>Mi Tienda</h4>
-    <a href="#"><i class="bi bi-house-door-fill"></i> Inicio</a>
-    <a href="#"><i class="bi bi-tags-fill"></i> Tipos de Tienda</a>
+    <a href="<?php echo constant('URL');?>"><i class="bi bi-house-door-fill"></i> Inicio</a>
+    <a href="<?php echo constant('URL');?>tipoTienda"><i class="bi bi-tags-fill"></i> Tipos de Tienda</a>
     <a href="#"><i class="bi bi-building"></i> Tiendas</a>
     <a href="#"><i class="bi bi-box"></i> Tipos de Producto</a>
     <a href="#"><i class="bi bi-box2"></i> Productos</a>

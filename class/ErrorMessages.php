@@ -13,7 +13,9 @@ class ErrorMessages
   const ERROR_TIENDA_NEWTIENDA_DATOSFALTANTES = '02ff8d598c813d35001edfe2eec61604';
   const ERROR_TIENDA_GETTIENDABYID_DATOSFALTANTES = '357263a8d5dc730dd61b366de11a4a31';
   const ERROR_TIENDA_UPDATETIENDA_DATOSFALTANTES = 'a2b0f3c4d5e6f7g8h9i0j1k2l3m4n5o6';
-
+  const ERROR_TIPOTIENDA_NEWTIPOTIENDA_DATOSFALTANTES = 'a2b0f3c4d5e6f7g8h9i0j1k2l3m4n5o6';
+  const ERROR_TIPOTIENDA_DELETETIPOTIENDA_DATOSFALTANTES = 'a2b0f3c4d5e6f7g8h9i0j1k2l3m4n5o6';
+  const ERROR_TIPOTIENDA_UPDATETIPOTIENDA_DATOSFALTANTES = 'a2b0f3c4d5e6f7g8h9i0j1k2l3m4n5o6';
   private $errorList = [];
 
   public function __construct()
@@ -24,6 +26,9 @@ class ErrorMessages
       ErrorMessages::ERROR_TIENDA_NEWTIENDA_DATOSFALTANTES => "Faltan datos requeridos.",
       ErrorMessages::ERROR_TIENDA_GETTIENDABYID_DATOSFALTANTES => "No se proporcionó ID",
       ErrorMessages::ERROR_TIENDA_UPDATETIENDA_DATOSFALTANTES => "Datos faltantes para actualizar la tienda",
+      ErrorMessages::ERROR_TIPOTIENDA_NEWTIPOTIENDA_DATOSFALTANTES => "Datos faltantes para crear un nuevo tipo de tienda",
+      ErrorMessages::ERROR_TIPOTIENDA_DELETETIPOTIENDA_DATOSFALTANTES => "No se proporcionó ID",
+      ErrorMessages::ERROR_TIPOTIENDA_UPDATETIPOTIENDA_DATOSFALTANTES => "Datos faltantes para actualizar el tipo de tienda",
     ];
   }
 
