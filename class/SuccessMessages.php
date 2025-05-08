@@ -14,6 +14,9 @@ class SuccessMessages{
   const SUCCESS_TIPOTIENDA_DELETE_ELIMINADO = "4f7a75fa74e226450e8b0c25f9af4260";
   const SUCCESS_TIPOTIENDA_UPDATE_GUARDADDA = "3d79c984ba85af08f0335c56b3b0497c";
   const SUCCESS_TIPOTIENDA_EDIT_EDITADO = '298c4a9463bb5cdf35d380b61543693b';
+  const SUCCESS_TIPOPRODUCTO_NEWTIPOPRODUCTO = 'a2b0f3c4d5e6f7g8h9i0j1k2l3m5o6pt';
+  const SUCCESS_TIPOPRODUCTO_UPDATETIPOPRODUCTO = '5e6fa2b0f3c4d7g8h94n5o6i0j1k2l3m';
+  const SUCCESS_TIPOPRODUCTO_DELETE_ELIMINADO  = "d5e6f7g8h9i0j1a2b0f3c4k2l3m5o6pt"; 
 
   private $successList = [];
 
@@ -28,6 +31,9 @@ class SuccessMessages{
       SuccessMessages::SUCCESS_TIPOTIENDA_DELETE_ELIMINADO => "El tipo de tienda se ha eliminado exitosamente",
       SuccessMessages::SUCCESS_TIPOTIENDA_UPDATE_GUARDADDA => "El tipo de tienda se ha actualizado exitosamente",
       SuccessMessages::SUCCESS_TIPOTIENDA_EDIT_EDITADO => "Tipo de tienda editado con éxito",
+      SuccessMessages::SUCCESS_TIPOPRODUCTO_NEWTIPOPRODUCTO => "El tipo de producto se ha registrado exitosamente",
+      SuccessMessages::SUCCESS_TIPOPRODUCTO_UPDATETIPOPRODUCTO => "El tipo de producto se ha actualizado exitosamente",
+      SuccessMessages::SUCCESS_TIPOPRODUCTO_DELETE_ELIMINADO => "El tipo de producto se ha eliminado exitosamente",
     ];
   }
 

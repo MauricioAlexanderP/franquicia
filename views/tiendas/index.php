@@ -28,14 +28,14 @@ $tipoTienda = $this->d['tipoTienda'];
     <h4><i class="bi bi-shop-window me-2"></i>Mi Tienda</h4>
     <a href="<?php echo constant('URL'); ?>"><i class="bi bi-house-door-fill"></i> Inicio</a>
     <a href="<?php echo constant('URL'); ?>tipoTienda"><i class="bi bi-tags-fill"></i> Tipos de Tienda</a>
-    <a href="#"><i class="bi bi-building"></i> Tiendas</a>
-    <a href="#"><i class="bi bi-box"></i> Tipos de Producto</a>
-    <a href="#"><i class="bi bi-box2"></i> Productos</a>
-    <a href="#"><i class="bi bi-person-gear"></i> Roles</a>
-    <a href="#"><i class="bi bi-people-fill"></i> Usuarios</a>
-    <a href="#"><i class="bi bi-clipboard-data"></i> Inventario</a>
-    <a href="#"><i class="bi bi-receipt-cutoff"></i> Ventas</a>
-    <a href="#"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
+    <a href="<?php echo constant('URL'); ?>tienda"><i class="bi bi-building"></i> Tiendas</a>
+    <a href="<?php echo constant('URL'); ?>tipoProducto"><i class="bi bi-box"></i> Tipos de Producto</a>
+    <a href="<?php echo constant('URL'); ?>producto"><i class="bi bi-box2"></i> Productos</a>
+    <a href="<?php echo constant('URL'); ?>roles"><i class="bi bi-person-gear"></i> Roles</a>
+    <a href="<?php echo constant('URL'); ?>usuarios"><i class="bi bi-people-fill"></i> Usuarios</a>
+    <a href="<?php echo constant('URL'); ?>inventario"><i class="bi bi-clipboard-data"></i> Inventario</a>
+    <a href="<?php echo constant('URL'); ?>ventas"><i class="bi bi-receipt-cutoff"></i> Ventas</a>
+    <a href="<?php echo constant('URL'); ?>logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
   </nav>
 
 
