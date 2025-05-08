@@ -26,8 +26,8 @@ $tipoTienda = $this->d['tipoTienda'];
   <!-- Sidebar -->
   <nav class="sidebar">
     <h4><i class="bi bi-shop-window me-2"></i>Mi Tienda</h4>
-    <a href="<?php echo constant('URL');?>"><i class="bi bi-house-door-fill"></i> Inicio</a>
-    <a href="<?php echo constant('URL');?>tipoTienda"><i class="bi bi-tags-fill"></i> Tipos de Tienda</a>
+    <a href="<?php echo constant('URL'); ?>"><i class="bi bi-house-door-fill"></i> Inicio</a>
+    <a href="<?php echo constant('URL'); ?>tipoTienda"><i class="bi bi-tags-fill"></i> Tipos de Tienda</a>
     <a href="#"><i class="bi bi-building"></i> Tiendas</a>
     <a href="#"><i class="bi bi-box"></i> Tipos de Producto</a>
     <a href="#"><i class="bi bi-box2"></i> Productos</a>
@@ -86,6 +86,12 @@ $tipoTienda = $this->d['tipoTienda'];
                       <!-- Formulario Eliminar -->
                       <form action="<?php echo constant('URL'); ?>tienda/deleteTienda" method="POST" class="d-inline">
                         <input type="hidden" name="tienda_id" value="<?php echo $tienda['tienda_id']; ?>">
+                        <input type="hidden" name="tipo_tienda_id" value="<?php echo $tienda['tipo_id']; ?>">
+                        <input type="hidden" name="encargado" value="<?php echo $tienda['encargado']; ?>">
+                        <input type="hidden" name="telefono" value="<?php echo $tienda['telefono']; ?>">
+                        <input type="hidden" name="ubicacion" value="<?php echo $tienda['ubicacion']; ?>">
+                        <input type="hidden" name="hora_entrada" value="<?php echo $tienda['hora_entrada']; ?>">
+                        <input type="hidden" name="hora_salida" value="<?php echo $tienda['hora_salida']; ?>">
                         <button type="button" class="btn btn-delete" onclick="eliminarTienda(<?php echo $tienda['tienda_id']; ?>, this.form)">
                           <i class="bi bi-trash3-fill"></i> Eliminar
                         </button>

@@ -14,6 +14,7 @@ class TiendaModel extends Model implements IModel
   private $telefono;
   private $hora_entrada;
   private $hora_salida;
+  private $estado;
 
   public function __construct()
   {
@@ -25,6 +26,7 @@ class TiendaModel extends Model implements IModel
     $this->telefono = '';
     $this->hora_entrada = '';
     $this->hora_salida = '';
+    $this->estado = 1;
   }
   public function save()
   {
@@ -44,7 +46,7 @@ class TiendaModel extends Model implements IModel
     $items = [];
 
     try {
-      $query = $this->db->consulta("SELECT * FROM tienda");
+      $query = $this->db->consulta("SELECT * FROM tienda WHERE estado = 1");
 
       while ($p = $query->fetch_assoc()) {
         $item = new TiendaModel();
@@ -102,7 +104,8 @@ class TiendaModel extends Model implements IModel
     try {
       $query = "UPDATE tienda SET tipo_tienda_id = '$this->tipo_tienda_id', 
       ubicacion = '$this->ubicacion', encargado = '$this->encargado', 
-      telefono = '$this->telefono', hora_entrada = '$this->hora_entrada', 
+      telefono = '$this->telefono', hora_entrada = '$this->hora_entrada',
+      estado = '$this->estado', 
       hora_salida = '$this->hora_salida' WHERE tienda_id = '$this->tienda_id'";
       $rs = $this->db->consulta($query);
       $tienda = $rs->fetch_assoc();
@@ -153,9 +156,10 @@ class TiendaModel extends Model implements IModel
     try {
       // Consulta con JOIN para obtener datos de la tienda y el tipo de tienda
       $query = $this->db->consulta("
-          SELECT t.tienda_id, tt.tipo AS tipo_tienda_id, t.ubicacion,t.encargado, t.telefono, t.hora_entrada, t.hora_salida
+          SELECT t.tienda_id, tt.tipo AS tipo_tienda_id, tt.tipo_tienda_id as tipo_id, t.ubicacion,t.encargado, t.telefono, t.hora_entrada, t.hora_salida
           FROM tienda t
           INNER JOIN tipo_tienda tt ON t.tipo_tienda_id = tt.tipo_tienda_id
+          WHERE t.estado = 1
         "
       );
 
@@ -163,6 +167,7 @@ class TiendaModel extends Model implements IModel
         $item = [
           'tienda_id' => $row['tienda_id'],
           'tipo_tienda_id' => $row['tipo_tienda_id'],
+          'tipo_id' => $row['tipo_id'],
           'ubicacion' => $row['ubicacion'],
           'encargado' => $row['encargado'],
           'telefono' => $row['telefono'],
@@ -249,5 +254,13 @@ class TiendaModel extends Model implements IModel
   public function setId($tienda_id)
   {
     $this->tienda_id = $tienda_id;
+  }
+  public function getEstado()
+  {
+    return $this->estado;
+  }
+  public function setEstado($estado)
+  {
+    $this->estado = $estado;
   }
 }

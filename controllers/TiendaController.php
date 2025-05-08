@@ -36,6 +36,7 @@ class TiendaController extends SessionController
     $dataTiendas =  new TiendaModel();
     $dataTiendas = $dataTiendas->getTiendasWithTipo();
     error_log("TIENDACONTROLLLER::render -> cargar index");
+    error_log("TIENDACONTROLLLER::render -> data: " . print_r($dataTiendas, true));
     $this->view->render('tiendas/index', ['data' => $dataTiendas, 'tipoTienda' => $this->getTipoTienda()]);
   }
 
@@ -129,16 +130,21 @@ class TiendaController extends SessionController
   public function deleteTienda()
   {
     error_log("TIENDACONTROLLLER::deleteTienda");
-    if (!$this->existPOST(['tienda_id'])) {
+    if (!$this->existPOST(['tienda_id', 'tipo_tienda_id', 'ubicacion', 'encargado', 'telefono', 'hora_entrada', 'hora_salida'])) {
       $this->redirect('tienda', ['error' => ErrorMessages::ERROR_TIENDA_NEWTIENDA_DATOSFALTANTES]);
       return;
     }
 
     $tienda = new TiendaModel();
     $tienda->setId($this->getPost('tienda_id'));
-    $id = $this->getPost('tienda_id');
-    $tienda->delete($id);
-    error_log("TIENDACONTROLLLER::deleteTienda -> id: " . $id);
+    $tienda->setTipoTiendaId($this->getPost('tipo_tienda_id'));
+    $tienda->setUbicacion($this->getPost('ubicacion'));
+    $tienda->setEncargado($this->getPost('encargado'));
+    $tienda->setTelefono($this->getPost('telefono'));
+    $tienda->setHoraEntrada($this->getPost('hora_entrada'));
+    $tienda->setHoraSalida($this->getPost('hora_salida'));
+    $tienda->setEstado(0); // Cambia el estado a 0 para eliminar la tienda
+    $tienda->update(); // Actualiza la tienda en la base de datos
     $this->redirect('tienda', ['success' => SuccessMessages::SUCCESS_TIENDA_DELETE_ELIMINADO]);
   }
 
