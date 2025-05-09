@@ -90,7 +90,7 @@ class TiendaModel extends Model implements IModel
   public function delete($id)
   {
     try {
-      $query = "DELETE FROM tienda WHERE tienda_id = '$id'";
+      $query = "UPDATE tienda SET estado = 0 WHERE tienda_id = $id";
       $this->db->consulta($query);
       return true;
     } catch (\Throwable $th) {

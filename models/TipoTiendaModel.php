@@ -121,7 +121,7 @@ class TipoTiendaModel extends Model implements IModel
   public function delete($id)
   {
     try {
-      $query = "DELETE FROM tipo_tienda WHERE tipo_tienda_id = '$id'";
+      $query = "UPDATE tipo_tienda SET estado = 0 WHERE tipo_tienda_id = $id";
       $this->db->consulta($query);
       return true;
     } catch (\Throwable $th) {

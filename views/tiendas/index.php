@@ -86,12 +86,6 @@ $tipoTienda = $this->d['tipoTienda'];
                       <!-- Formulario Eliminar -->
                       <form action="<?php echo constant('URL'); ?>tienda/deleteTienda" method="POST" class="d-inline">
                         <input type="hidden" name="tienda_id" value="<?php echo $tienda['tienda_id']; ?>">
-                        <input type="hidden" name="tipo_tienda_id" value="<?php echo $tienda['tipo_id']; ?>">
-                        <input type="hidden" name="encargado" value="<?php echo $tienda['encargado']; ?>">
-                        <input type="hidden" name="telefono" value="<?php echo $tienda['telefono']; ?>">
-                        <input type="hidden" name="ubicacion" value="<?php echo $tienda['ubicacion']; ?>">
-                        <input type="hidden" name="hora_entrada" value="<?php echo $tienda['hora_entrada']; ?>">
-                        <input type="hidden" name="hora_salida" value="<?php echo $tienda['hora_salida']; ?>">
                         <button type="button" class="btn btn-delete" onclick="eliminarTienda(<?php echo $tienda['tienda_id']; ?>, this.form)">
                           <i class="bi bi-trash3-fill"></i> Eliminar
                         </button>

@@ -130,21 +130,14 @@ class TiendaController extends SessionController
   public function deleteTienda()
   {
     error_log("TIENDACONTROLLLER::deleteTienda");
-    if (!$this->existPOST(['tienda_id', 'tipo_tienda_id', 'ubicacion', 'encargado', 'telefono', 'hora_entrada', 'hora_salida'])) {
+    if (!$this->existPOST(['tienda_id'])) {
       $this->redirect('tienda', ['error' => ErrorMessages::ERROR_TIENDA_NEWTIENDA_DATOSFALTANTES]);
       return;
     }
 
     $tienda = new TiendaModel();
-    $tienda->setId($this->getPost('tienda_id'));
-    $tienda->setTipoTiendaId($this->getPost('tipo_tienda_id'));
-    $tienda->setUbicacion($this->getPost('ubicacion'));
-    $tienda->setEncargado($this->getPost('encargado'));
-    $tienda->setTelefono($this->getPost('telefono'));
-    $tienda->setHoraEntrada($this->getPost('hora_entrada'));
-    $tienda->setHoraSalida($this->getPost('hora_salida'));
-    $tienda->setEstado(0); // Cambia el estado a 0 para eliminar la tienda
-    $tienda->update(); // Actualiza la tienda en la base de datos
+    $id = $this->getPost('tienda_id');
+    $tienda->delete($id);
     $this->redirect('tienda', ['success' => SuccessMessages::SUCCESS_TIENDA_DELETE_ELIMINADO]);
   }
 

@@ -76,17 +76,14 @@ class TipoTiendaController extends SessionController
 
   public function deleteTipoTienda(){
     error_log("TIPOTIENDACONTROLLER::deleteTipoTienda - Método llamado");
-    if(!$this->existPOST(['tipo_tienda_id', 'tipo', 'descripcion'])){
+    if(!$this->existPOST(['tipo_tienda_id'])){
       $this->redirect('tipoTienda', ['error' => ErrorMessages::ERROR_TIPOTIENDA_DELETETIPOTIENDA_DATOSFALTANTES]);
       return;
     }
 
     $tipoTienda = new TipoTiendaModel();
-    $tipoTienda->setTipoTiendaId($this->getPost('tipo_tienda_id'));
-    $tipoTienda->setTipo($this->getPost('tipo'));
-    $tipoTienda->setDescripcion($this->getPost('descripcion'));
-    $tipoTienda->setEstado(0);
-    $tipoTienda->update();
+    $id = $this->getPost('tipo_tienda_id');
+    $tipoTienda->delete($id);
     $this->redirect('tipoTienda', ['success' => SuccessMessages::SUCCESS_TIPOTIENDA_DELETE_ELIMINADO]);
   }
 
