@@ -97,17 +97,14 @@ class TipoProductoController extends SessionController
   public function deleteTipoProducto()
   {
     error_log("TIPOPRODUCTOCONTROLLER::deleteTipoProducto - Método llamado");
-    if (!$this->existPOST(['tipo_producto_id', 'catalogo', 'descripcion'])) {
+    if (!$this->existPOST(['tipo_producto_id'])) {
       $this->redirect('tipoProducto', ['error' => ErrorMessages::ERROR_TIPOPRODUCTO_GETTIPOPRODUCTO_DATOSFALTANTES]);
       return;
     }
 
     $tipoProducto = new TipoProductoModel();
-    $tipoProducto->setTipoProductoId($this->getPost('tipo_producto_id'));
-    $tipoProducto->setCatalogo($this->getPost('catalogo'));
-    $tipoProducto->setDescripcion($this->getPost('descripcion'));
-    $tipoProducto->setEstado(0);
-    $tipoProducto->update(); 
+    $id = $this->getPost('tipo_producto_id');
+    $tipoProducto->delete($id);
     $this->redirect('tipoProducto', ['success' => SuccessMessages::SUCCESS_TIPOPRODUCTO_DELETE_ELIMINADO]);
   }
 

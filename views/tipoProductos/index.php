@@ -73,8 +73,6 @@ $tipoProducto = $this->d['tipoProducto'];
                       <!-- Formulario Eliminar -->
                       <form action="<?php echo constant('URL'); ?>tipoProducto/deleteTipoProducto" method="POST" class="d-inline">
                         <input type="hidden" name="tipo_producto_id" value="<?php echo $tipo['tipo_producto_id']; ?>">
-                        <input type="hidden" name="catalogo" value="<?php echo $tipo['catalogo']; ?>">
-                        <input type="hidden" name="descripcion" value="<?php echo $tipo['descripcion']; ?>">
                         <button type="button" class="btn btn-delete" onclick="eliminarTipoProducto(<?php echo $tipo['tipo_producto_id']; ?>, this.form)">
                           <i class="bi bi-trash3-fill"></i> Eliminar
                         </button>
