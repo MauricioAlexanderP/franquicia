@@ -17,7 +17,9 @@ class SuccessMessages{
   const SUCCESS_TIPOPRODUCTO_NEWTIPOPRODUCTO = 'a2b0f3c4d5e6f7g8h9i0j1k2l3m5o6pt';
   const SUCCESS_TIPOPRODUCTO_UPDATETIPOPRODUCTO = '5e6fa2b0f3c4d7g8h94n5o6i0j1k2l3m';
   const SUCCESS_TIPOPRODUCTO_DELETE_ELIMINADO  = "d5e6f7g8h9i0j1a2b0f3c4k2l3m5o6pt"; 
-
+  const SUCCESS_PRODUCTO_NEWPRODUCTO = '50a2009a948826c4036ecabe77707800';
+  const SUCCESS_PRODUCTO_UPDATEPRODUCTO = '293f8842898813f1897759b19d09ffa2';
+  const SUCCESS_PRODUCTO_DELETEPRODUCTO = '9f110508c7c5f36bba3b784eab834914';
   private $successList = [];
 
   public function __construct()
@@ -34,6 +36,9 @@ class SuccessMessages{
       SuccessMessages::SUCCESS_TIPOPRODUCTO_NEWTIPOPRODUCTO => "El tipo de producto se ha registrado exitosamente",
       SuccessMessages::SUCCESS_TIPOPRODUCTO_UPDATETIPOPRODUCTO => "El tipo de producto se ha actualizado exitosamente",
       SuccessMessages::SUCCESS_TIPOPRODUCTO_DELETE_ELIMINADO => "El tipo de producto se ha eliminado exitosamente",
+      SuccessMessages::SUCCESS_PRODUCTO_NEWPRODUCTO => "El producto se ha registrado exitosamente",
+      SuccessMessages::SUCCESS_PRODUCTO_UPDATEPRODUCTO => "El producto se ha actualizado exitosamente",
+      SuccessMessages::SUCCESS_PRODUCTO_DELETEPRODUCTO => "El producto se ha eliminado exitosamente",
     ];
   }
 

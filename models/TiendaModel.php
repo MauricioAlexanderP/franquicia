@@ -156,10 +156,10 @@ class TiendaModel extends Model implements IModel
     try {
       // Consulta con JOIN para obtener datos de la tienda y el tipo de tienda
       $query = $this->db->consulta("
-          SELECT t.tienda_id, tt.tipo AS tipo_tienda_id, tt.tipo_tienda_id as tipo_id, t.ubicacion,t.encargado, t.telefono, t.hora_entrada, t.hora_salida
-          FROM tienda t
-          INNER JOIN tipo_tienda tt ON t.tipo_tienda_id = tt.tipo_tienda_id
-          WHERE t.estado = 1
+            SELECT t.tienda_id, tt.tipo AS tipo_tienda_id, tt.tipo_tienda_id as tipo_id, t.ubicacion,t.encargado, t.telefono, t.hora_entrada, t.hora_salida
+            FROM tienda t
+            INNER JOIN tipo_tienda tt ON t.tipo_tienda_id = tt.tipo_tienda_id
+            WHERE t.estado = 1
         "
       );
 

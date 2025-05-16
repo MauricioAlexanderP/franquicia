@@ -13,7 +13,7 @@ class ProductoModel extends Model implements IModel
   private $descripcion;
   private $imagen;
   private $precio;
-  private $estado; 
+  private $estado;
 
   public function __construct()
   {
@@ -30,32 +30,123 @@ class ProductoModel extends Model implements IModel
 
   public function save()
   {
-    // TODO
+    try {
+      $query = "INSERT INTO producto (tipo_producto_id, nombre, descripcion, imagen, precio)
+    VALUES ('$this->tipo_producto_id', '$this->nombre', '$this->descripcion', '$this->imagen', '$this->precio')";
+      $this->db->consulta($query);
+      return true;
+    } catch (\Throwable $th) {
+      error_log("PRODUCTOMODEL::save -> Error: " . $th->getMessage());
+      return false;
+    }
   }
 
   public function getAll()
   {
-    // TODO
+    $items = [];
+
+    try {
+      $query = $this->db->consulta("
+      SELECT p.producto_id, tp.catalogo, p.nombre, p.descripcion, p.imagen, p.precio
+        FROM producto p
+        INNER JOIN tipo_producto tp on p.tipo_producto_id = tp.tipo_producto_id
+        WHERE p.estado = 1
+      ");
+
+      while ($row = $query->fetch_assoc()) {
+        $item = [
+          'producto_id' => $row['producto_id'],
+          'tipo_producto' => $row['catalogo'],
+          'nombre' => $row['nombre'],
+          'descripcion' => $row['descripcion'],
+          'imagen' => $row['imagen'],
+          'precio' => $row['precio']
+        ];
+        array_push($items, $item);
+      }
+      return $items;
+    } catch (\Throwable $th) {
+      error_log("PRODUCTOMODEL::getAll -> Error: " . $th->getMessage());
+      return [];
+    }
   }
 
   public function get($id)
   {
-    // TODO
+    try {
+      $query = "SELECT * FROM producto WHERE producto_id = '$id' AND estado = 1";
+      $rs = $this->db->consulta($query);
+      $tienda = $rs->fetch_assoc();
+
+      $this->setProductoId($tienda['producto_id']);
+      $this->setTipoProductoId($tienda['tipo_producto_id']);
+      $this->setNombre($tienda['nombre']);
+      $this->setDescripcion($tienda['descripcion']);
+      $this->setImagen($tienda['imagen']);
+      $this->setPrecio($tienda['precio']);
+      return $this;
+
+    } catch (\Throwable $th) {
+      error_log("PRODUCTOMODEL::get -> Error: " . $th->getMessage());
+      return false;
+    }
   }
 
   public function delete($id)
   {
-    // TODO
+    try {
+      $query = "UPDATE producto SET estado = 0 WHERE producto_id = $id";
+      $this->db->consulta($query);
+      return true;
+    } catch (\Throwable $th) {
+      error_log("PRODUCTOMODEL::delete -> Error: " . $th->getMessage());
+      return false;
+    }
   }
 
   public function update()
   {
-    // TODO
+    try {
+      $query = "UPDATE producto SET tipo_producto_id = '$this->tipo_producto_id', 
+      nombre = '$this->nombre', descripcion = '$this->descripcion', precio = '$this->precio' 
+      WHERE producto_id = '$this->producto_id'";
+      $rs = $this->db->consulta($query);
+      $producto = $rs->fetch_assoc();
+      $this->setProductoId($producto['producto_id']);
+      $this->setTipoProductoId($producto['tipo_producto_id']);
+      $this->setNombre($producto['nombre']);
+      $this->setDescripcion($producto['descripcion']);
+      $this->setPrecio($producto['precio']);
+      return $this;
+
+    } catch (\Throwable $th) {
+      error_log("PRODUCTOMODEL::update -> Error: " . $th->getMessage());
+      return false;
+    }
   }
 
   public function from($array)
   {
-    // TODO
+    $this->producto_id = $array['producto_id'];
+    $this->tipo_producto_id = $array['tipo_producto_id'];
+    $this->nombre = $array['nombre'];
+    $this->descripcion = $array['descripcion'];
+    $this->imagen = $array['imagen'];
+    $this->precio = $array['precio'];
+    $this->estado = $array['estado'];
+  }
+
+  public function toArray()
+  {
+    return [
+      'producto_id' => $this->producto_id,
+      'tipo_producto_id' => $this->tipo_producto_id,
+      'nombre' => $this->nombre,
+      'descripcion' => $this->descripcion,
+      'imagen' => $this->imagen,
+      'precio' => $this->precio,
+      'estado' => $this->estado
+    ];
   }
 
   public function setProductoId($producto_id)

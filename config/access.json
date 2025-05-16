@@ -20,6 +20,11 @@
       "site": "tipoProducto",
       "access": "private",
       "role": 1
+    },
+    {
+      "site": "producto",
+      "access": "private",
+      "role": 1
     }
   ],
   
