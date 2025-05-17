@@ -38,11 +38,11 @@ class ProductoController extends SessionController
     error_log("PRODUCTOCONTROLLER::newProducto");
 
 
-    if (!$this->existPOST(['tipoProducto', 'nombre', 'descripcion', 'precio'])) {
+    if (!$this->existPOST(['tipoProducto', 'nombre', 'descripcion', 'precio','stock'])) {
       $this->redirect('producto', ['error' => ErrorMessages::ERROR_PRODUCTO_NEWPRODUCTO_DATOSFALTANTES]);
       return;
     }
-    error_log("PRODUCTOCONTROLLER::newProducto -> Datos recibidos: " . print_r($this->getPost('imagen'), true));
+    //error_log("PRODUCTOCONTROLLER::newProducto -> Datos recibidos: " . print_r($this->getPost('imagen'), true));
 
     $producto = new ProductoModel();
     $producto->setTipoProductoId($this->getPost('tipoProducto'));
@@ -50,6 +50,7 @@ class ProductoController extends SessionController
     $producto->setDescripcion($this->getPost('descripcion'));
     $producto->setImagen($this->images());
     $producto->setPrecio($this->getPost('precio'));
+    $producto->setStock($this->getPost('stock'));
     $producto->save();
     $this->redirect('producto', ['success' => SuccessMessages::SUCCESS_PRODUCTO_NEWPRODUCTO]);
   }
@@ -58,7 +59,7 @@ class ProductoController extends SessionController
   {
     error_log("PRODUCTOCONTROLLER::updateProducto");
 
-    if (!$this->existPOST(['producto_id', 'tipoProducto', 'nombre', 'descripcion', 'precio'])) {
+    if (!$this->existPOST(['producto_id', 'tipoProducto', 'nombre', 'descripcion', 'precio', 'stock'])) {
       $this->redirect('producto', ['error' => ErrorMessages::ERROR_PRODUCTO_NEWPRODUCTO_DATOSFALTANTES]);
       return;
     }
@@ -70,6 +71,7 @@ class ProductoController extends SessionController
     $producto->setDescripcion($this->getPost('descripcion'));
     // $producto->setImagen($this->images());
     $producto->setPrecio($this->getPost('precio'));
+    $producto->setStock($this->getPost('stock'));
     $producto->update();
     $this->redirect('producto', ['success' => SuccessMessages::SUCCESS_PRODUCTO_UPDATEPRODUCTO]);
   }
