@@ -14,8 +14,6 @@ class ProductoModel extends Model implements IModel
   private $imagen;
   private $precio;
   private $estado;
-  private $stock_minimo;
-  private $stock;
 
   public function __construct()
   {
@@ -27,17 +25,14 @@ class ProductoModel extends Model implements IModel
     $this->imagen = '';
     $this->precio = 0.0;
     $this->estado = 1; // Activo
-    $this->stock_minimo = 0;
-    $this->stock = 0;
   }
 
 
   public function save()
   {
     try {
-      $query = "INSERT INTO producto (tipo_producto_id, nombre, descripcion, imagen, precio, stock)
-    VALUES ('$this->tipo_producto_id', '$this->nombre', '$this->descripcion', '$this->imagen', 
-    '$this->precio', '$this->stock')";
+      $query = "INSERT INTO producto (tipo_producto_id, nombre, descripcion, imagen, precio)
+    VALUES ('$this->tipo_producto_id', '$this->nombre', '$this->descripcion', '$this->imagen', '$this->precio')";
       $this->db->consulta($query);
       return true;
     } catch (\Throwable $th) {
@@ -52,9 +47,9 @@ class ProductoModel extends Model implements IModel
 
     try {
       $query = $this->db->consulta("
-        SELECT p.producto_id, tp.catalogo, p.nombre, p.descripcion, p.imagen, p.precio, p.stock, p.stock_minimo
+      SELECT p.producto_id, tp.catalogo, p.nombre, p.descripcion, p.imagen, p.precio
         FROM producto p
-        INNER JOIN tipo_producto tp ON p.tipo_producto_id = tp.tipo_producto_id
+        INNER JOIN tipo_producto tp on p.tipo_producto_id = tp.tipo_producto_id
         WHERE p.estado = 1
       ");
 
@@ -65,9 +60,7 @@ class ProductoModel extends Model implements IModel
           'nombre' => $row['nombre'],
           'descripcion' => $row['descripcion'],
           'imagen' => $row['imagen'],
-          'precio' => $row['precio'],
-          'stock' => $row['stock'],
-          'stock_minimo' => $row['stock_minimo']
+          'precio' => $row['precio']
         ];
         array_push($items, $item);
       }
@@ -91,8 +84,6 @@ class ProductoModel extends Model implements IModel
       $this->setDescripcion($tienda['descripcion']);
       $this->setImagen($tienda['imagen']);
       $this->setPrecio($tienda['precio']);
-      $this->setStockMinimo($tienda['stock_minimo']);
-      $this->setStock($tienda['stock']);
       return $this;
 
     } catch (\Throwable $th) {
@@ -117,8 +108,7 @@ class ProductoModel extends Model implements IModel
   {
     try {
       $query = "UPDATE producto SET tipo_producto_id = '$this->tipo_producto_id', 
-      nombre = '$this->nombre', descripcion = '$this->descripcion', precio = '$this->precio',
-      stock = '$this->stock' 
+      nombre = '$this->nombre', descripcion = '$this->descripcion', precio = '$this->precio' 
       WHERE producto_id = '$this->producto_id'";
       $rs = $this->db->consulta($query);
       $producto = $rs->fetch_assoc();
@@ -127,7 +117,6 @@ class ProductoModel extends Model implements IModel
       $this->setNombre($producto['nombre']);
       $this->setDescripcion($producto['descripcion']);
       $this->setPrecio($producto['precio']);
-      $this->setStock($producto['stock']);
       return $this;
 
     } catch (\Throwable $th) {
@@ -145,9 +134,6 @@ class ProductoModel extends Model implements IModel
     $this->imagen = $array['imagen'];
     $this->precio = $array['precio'];
     $this->estado = $array['estado'];
-    $this->stock_minimo = $array['stock_minimo'];
-    $this->stock = $array['stock'];
-    return $this;
   }
 
   public function toArray()
@@ -159,9 +145,7 @@ class ProductoModel extends Model implements IModel
       'descripcion' => $this->descripcion,
       'imagen' => $this->imagen,
       'precio' => $this->precio,
-      'estado' => $this->estado,
-      'stock_minimo' => $this->stock_minimo,
-      'stock' => $this->stock
+      'estado' => $this->estado
     ];
   }
 
@@ -213,24 +197,6 @@ class ProductoModel extends Model implements IModel
   {
     return $this->precio;
   }
-
-  public function setStockMinimo($stock_minimo)
-  {
-    $this->stock_minimo = $stock_minimo;
-  }
-  public function getStockMinimo()
-  {
-    return $this->stock_minimo;
-  }
-  public function setStock($stock)
-  {
-    $this->stock = $stock;
-  }
-  public function getStock()
-  {
-    return $this->stock;
-  }
-
   public function setEstado($estado)
   {
     $this->estado = $estado;

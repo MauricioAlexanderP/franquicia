@@ -57,7 +57,6 @@ $productos = $this->d['productos'];
                   <th>Descripción</th>
                   <th>Precio</th>
                   <th>Tipo</th>
-                  <th>Stock</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -72,7 +71,6 @@ $productos = $this->d['productos'];
                     <td><?php echo $producto['descripcion']; ?></td>
                     <td><?php echo $producto['precio']; ?></td>
                     <td><?php echo $producto['tipo_producto']; ?></td>
-                    <td><?php echo $producto['stock']; ?></td>
                     <td>
                       <!-- Formulario Editar -->
                       <form action="<?php echo constant('URL'); ?>producto/editar" method="POST" class="d-inline">
@@ -123,10 +121,6 @@ $productos = $this->d['productos'];
               <label class="form-label">Precio</label>
               <input type="number" step="0.01" class="form-control" name="precio" required>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Stock</label>
-              <input type="number" step="1" min="10" class="form-control" name="stock" required>
-            </div>
             <div class="mb-4">
               <label class="form-label">Tipo de Producto</label>
               <select class="form-select" name="tipoProducto" required>
@@ -154,53 +148,49 @@ $productos = $this->d['productos'];
   </div>
 
 
-  <!-- FORMULARIO PARA EDITAR -->
-  <div class="modal fade" id="modalProductoEditar" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content shadow-sm">
-        <div class="modal-header">
-          <h5 class="modal-title">Editar Producto</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <form method="post" action="<?php echo constant('URL'); ?>producto/updateProducto" id="formProductoEditar">
-            <input type="hidden" name="producto_id" id="editar_producto_id">
-            <div class="mb-3">
-              <label class="form-label">Tipo de Producto</label>
-              <select class="form-select" name="tipoProducto" id="editar_tipoProducto" required>
-                <option selected disabled value="">Seleccione</option>
-                <?php foreach ($tipoProducto as $tipo): ?>
-                  <option value="<?php echo $tipo['tipo_producto_id']; ?>"><?php echo $tipo['catalogo']; ?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Nombre</label>
-              <input type="text" class="form-control" name="nombre" id="editar_nombre" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Descripción</label>
-              <textarea class="form-control" name="descripcion" id="editar_descripcion" required></textarea>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Precio</label>
-              <input type="number" class="form-control" name="precio" id="editar_precio" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Stock</label>
-              <input type="number" step="1" min="10" class="form-control" name="stock" required>
-            </div>
-            <!-- Puedes agregar aquí el campo para imagen si lo deseas -->
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary">
-                <i class="bi bi-arrow-clockwise me-1"></i> Actualizar
-              </button>
-            </div>
-          </form>
-        </div>
+<!-- FORMULARIO PARA EDITAR -->
+<div class="modal fade" id="modalProductoEditar" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-sm">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="<?php echo constant('URL'); ?>producto/updateProducto" id="formProductoEditar">
+          <input type="hidden" name="producto_id" id="editar_producto_id">
+          <div class="mb-3">
+            <label class="form-label">Tipo de Producto</label>
+            <select class="form-select" name="tipoProducto" id="editar_tipoProducto" required>
+              <option selected disabled value="">Seleccione</option>
+              <?php foreach ($tipoProducto as $tipo): ?>
+                <option value="<?php echo $tipo['tipo_producto_id']; ?>"><?php echo $tipo['catalogo']; ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="editar_nombre" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" name="descripcion" id="editar_descripcion" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Precio</label>
+            <input type="number" class="form-control" name="precio" id="editar_precio" required>
+          </div>
+          <!-- Puedes agregar aquí el campo para imagen si lo deseas -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-arrow-clockwise me-1"></i> Actualizar
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -213,7 +203,7 @@ $productos = $this->d['productos'];
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           body: 'producto_id=' + id
-
+          
         })
         .then(response => response.json())
         .then(data => {
@@ -225,7 +215,6 @@ $productos = $this->d['productos'];
             document.querySelector('#formProductoEditar input[name="nombre"]').value = data.nombre;
             document.querySelector('#formProductoEditar textarea[name="descripcion"]').value = data.descripcion;
             document.querySelector('#formProductoEditar input[name="precio"]').value = data.precio;
-            document.querySelector('#formProductoEditar input[name="stock"]').value = data.stock;
             new bootstrap.Modal(document.getElementById('modalProductoEditar')).show();
           }
         })
