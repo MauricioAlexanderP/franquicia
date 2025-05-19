@@ -25,9 +25,19 @@
       "site": "producto",
       "access": "private",
       "role": 1
+    },
+    {
+      "site": "roles",
+      "access": "private",
+      "role": 1
+    },
+    {
+      "site": "inventario",
+      "access": "private",
+      "role": 1
     }
   ],
-  
+
   "default-sites":{
     "1" : "tienda"
   }

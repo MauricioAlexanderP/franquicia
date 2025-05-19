@@ -20,6 +20,9 @@ class SuccessMessages{
   const SUCCESS_PRODUCTO_NEWPRODUCTO = '50a2009a948826c4036ecabe77707800';
   const SUCCESS_PRODUCTO_UPDATEPRODUCTO = '293f8842898813f1897759b19d09ffa2';
   const SUCCESS_PRODUCTO_DELETEPRODUCTO = '9f110508c7c5f36bba3b784eab834914';
+  const SUCCESS_ROLES_NEWROL_GUARDADO = 'a548bd32900127ff915d61d669044814';
+  const SUCCESS_ROLES_NEWROL_ACTUALIZADO = '890e20634e3bd864354c032ec7732430';
+  const SUCCESS_ROLES_NEWROL_ELIMINADO = 'd5d994ab1430ef6871f3d3c2957e235e';
   private $successList = [];
 
   public function __construct()
@@ -39,6 +42,9 @@ class SuccessMessages{
       SuccessMessages::SUCCESS_PRODUCTO_NEWPRODUCTO => "El producto se ha registrado exitosamente",
       SuccessMessages::SUCCESS_PRODUCTO_UPDATEPRODUCTO => "El producto se ha actualizado exitosamente",
       SuccessMessages::SUCCESS_PRODUCTO_DELETEPRODUCTO => "El producto se ha eliminado exitosamente",
+      SuccessMessages::SUCCESS_ROLES_NEWROL_GUARDADO => "Rol guardado exitosamente.",
+      SuccessMessages::SUCCESS_ROLES_NEWROL_ACTUALIZADO => "Rol actualizado exitosamente.",
+      SuccessMessages::SUCCESS_ROLES_NEWROL_ELIMINADO => "Rol eliminado exitosamente.",
     ];
   }
 
