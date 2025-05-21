@@ -23,6 +23,10 @@ class SuccessMessages{
   const SUCCESS_ROLES_NEWROL_GUARDADO = 'a548bd32900127ff915d61d669044814';
   const SUCCESS_ROLES_NEWROL_ACTUALIZADO = '890e20634e3bd864354c032ec7732430';
   const SUCCESS_ROLES_NEWROL_ELIMINADO = 'd5d994ab1430ef6871f3d3c2957e235e';
+  const SUCCESS_ROLES_NEWROL = '017dcce727b72d97239dd38328de4ed4';
+  const SUCCESS_USUARIO_NEWUSUARIO = '046bb43607a1a874e51f77f971a2b90b';
+  const SUCCESS_USUARIO_UPDATE_USUARIO = '3c4d5e6f7g8h9i0j1a2b0fk2l3m4n5o6';
+  const SUCCESS_USUARIO_DELETE_USUARIO = '5e6f7g9i1a870j1a2b0f39ic4d5e6f7g8h';
   private $successList = [];
 
   public function __construct()
@@ -45,6 +49,10 @@ class SuccessMessages{
       SuccessMessages::SUCCESS_ROLES_NEWROL_GUARDADO => "Rol guardado exitosamente.",
       SuccessMessages::SUCCESS_ROLES_NEWROL_ACTUALIZADO => "Rol actualizado exitosamente.",
       SuccessMessages::SUCCESS_ROLES_NEWROL_ELIMINADO => "Rol eliminado exitosamente.",
+      SuccessMessages::SUCCESS_ROLES_NEWROL => "Rol registrado exitosamente.",
+      SuccessMessages::SUCCESS_USUARIO_NEWUSUARIO => "Usuario registrado exitosamente.",
+      SuccessMessages::SUCCESS_USUARIO_UPDATE_USUARIO => "Usuario actualizado exitosamente.",    
+      SuccessMessages::SUCCESS_USUARIO_DELETE_USUARIO => "Usuario eliminado exitosamente.",
     ];
   }
 

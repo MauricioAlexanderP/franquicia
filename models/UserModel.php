@@ -27,7 +27,7 @@ class UserModel extends Model implements IModel
     $this->correo = '';
     $this->password = '';
     $this->telefono = '';
-    $this->estado = null;
+    $this->estado = 1;
   }
   public function save()
   {
@@ -74,7 +74,7 @@ class UserModel extends Model implements IModel
   {
     try {
 
-      $sql = "SELECT * FROM usuario WHERE usuario_id = '$id'";
+      $sql = "SELECT * FROM usuario WHERE usuario_id = $id";
       $rs = $this->db->consulta($sql);
       $user = $rs->fetch_assoc();
 
@@ -98,7 +98,7 @@ class UserModel extends Model implements IModel
   public function delete($id)
   {
     try {
-      $query = "DELETE FROM usuario WHERE usuario_id = '$id'";
+      $query = "UPDATE usuario SET estado = 0 WHERE usuario_id = '$id'";
       $this->db->consulta($query);
       return true;
     } catch (\Throwable $th) {
@@ -115,10 +115,10 @@ class UserModel extends Model implements IModel
       $query = "UPDATE usuario SET 
       tienda_id = '$this->tienda_id', 
       rol_id = '$this->rol_id', nombre_usuario = '$this->nombre_usuario',
-      correo = '$this->correo', contraseña = '$this->password', telefono = $this->telefono, 
-      estado = '$this->estado' WHERE usuario_id = '$this->usuario_id'";
+      correo = '$this->correo', telefono = '$this->telefono'
+      WHERE usuario_id = '$this->usuario_id'";
       $rs = $this->db->consulta($query);
-      
+
       $user = $rs->fetch_assoc();
 
       //$item = new UserModel();
@@ -138,6 +138,36 @@ class UserModel extends Model implements IModel
     }
   }
 
+  public function getUserAndTiendaRol(){
+    $items = [];
+    try {
+      $query = $this->db->consulta(
+      "SELECT u.usuario_id, t.ubicacion as tienda_id , r.nombre_rol as rol_id, u.nombre_usuario, u.correo, u.contraseña, u.telefono, u.estado
+        FROM usuario u
+        INNER JOIN tienda t on u.tienda_id = t.tienda_id
+        INNER JOIN rol r on u.rol_id = r.rol_id
+        WHERE u.estado = 1");
+      
+      while($p = $query->fetch_assoc()){
+        $item = new UserModel();
+        $item->setId($p['usuario_id']);
+        $item->setTiendaId($p['tienda_id']);
+        $item->setRolId($p['rol_id']);
+        $item->setNombreUsuario($p['nombre_usuario']);
+        $item->setCorreo($p['correo']);
+        $item->setPassword($p['contraseña']);
+        $item->setTelefono($p['telefono']);
+        $item->setEstado($p['estado']);
+
+        array_push($items, $item);
+      }
+    } catch (\Throwable $th) {
+      error_log("USERMODEL::getUserAndTiendaRol => " . $th->getMessage());
+      return false;
+    }
+    return $items;
+  }
+
   public function from($array)
   {
     $this->usuario_id = $array['usuario_id'];
@@ -152,11 +182,26 @@ class UserModel extends Model implements IModel
     return $this;
   }
 
-  public function exists($username,){
+  public function toArray()
+  {
+    return [
+      'usuario_id' => $this->usuario_id,
+      'tienda_id' => $this->tienda_id,
+      'rol_id' => $this->rol_id,
+      'nombre_usuario' => $this->nombre_usuario,
+      'correo' => $this->correo,
+      'contraseña' => $this->password,
+      'telefono' => $this->telefono,
+      'estado' => $this->estado
+    ];
+  }
+
+  public function exists($username,)
+  {
     try {
       $query = "SELECT nombre_usuario FROM usuario WHERE nombre_usuario = '$username'";
       $rs = $this->db->consulta($query);
-      
+
       $user = $rs->fetch_assoc();
       if ($user != null) {
         return true;
@@ -173,9 +218,8 @@ class UserModel extends Model implements IModel
   {
     try {
       $user = $this->get($id);
-      
-      return password_verify($password, $user['contraseña']);
 
+      return password_verify($password, $user['contraseña']);
     } catch (\Throwable $th) {
       error_log("USERMODEL::comparePassword => " . $th->getMessage());
       return false;
@@ -231,7 +275,7 @@ class UserModel extends Model implements IModel
 
   public function setPassword($password)
   {
-    $this->password = $this->getHash($password);
+    $this->password = $password;
   }
   public function getPassword()
   {
@@ -258,6 +302,22 @@ class UserModel extends Model implements IModel
 
   private function getHash($password)
   {
-    return password_hash($password, PASSWORD_DEFAULT, ['cost' => 10]);
+    return $this->encriptar_desencriptar("encriptar", $password);
+  }
+
+  public function encriptar_desencriptar($accion, $texto)
+  {
+    $salida = "";
+    $encriptarmetodo = "AES-256-CBC";
+    $palabrasecreta = "35ab83c5e045281f8280a5d9c6b0a0d6";
+    $iv = 'C9FBL1EWSD/M8JFTGS';
+    $key = hash("sha256", $palabrasecreta);
+    $iv = substr(hash("sha256", $iv), 0, 16);
+    if ($accion == "encriptar") {
+      $salida = openssl_encrypt($texto, $encriptarmetodo, $key, 0, $iv);
+    } else if ($accion == "desencriptar") {
+      $salida = openssl_decrypt($texto, $encriptarmetodo, $key, 0, $iv);
+    }
+    return $salida;
   }
 }

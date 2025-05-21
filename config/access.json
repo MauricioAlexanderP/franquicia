@@ -32,7 +32,7 @@
       "role": 1
     },
     {
-      "site": "inventario",
+      "site": "usuarios",
       "access": "private",
       "role": 1
     }

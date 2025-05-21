@@ -20,14 +20,14 @@ class LoginModel extends Model
       $rs = $this->db->consulta($sql);
       $item = $rs->fetch_assoc();
       if ($item != null) {
-        error_log("LOGINMODEL::login-item =>  success");
+        //error_log("LOGINMODEL::login-item =>  success");
         $user = new UserModel();
         $user->from($item);
       }else{
-        error_log("LOGINMODEL::login =>  failed to execute query");
+        //error_log("LOGINMODEL::login =>  failed to execute query");
         return null;
       }
-      //password_verify($password, $user->getPassword()
+      error_log("LOGINMODEL::login => " . print_r($user, true));
       if($password == $user->getPassword()) {
         error_log("LOGINMODEL::login =>  success");
         return $user;

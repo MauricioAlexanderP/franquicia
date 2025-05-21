@@ -140,7 +140,7 @@ $tipoProducto = $this->d['tipoProducto'];
             </div>
             <div class="d-grid">
               <button type="submit" class="btn btn-primary">
-                <i class="bi bi-save2 me-1"></i> Guardar
+                <i class="bi bi-arrow-clockwise me-1"></i> Actualizar
               </button>
             </div>
           </form>
@@ -154,28 +154,28 @@ $tipoProducto = $this->d['tipoProducto'];
   <script>
     function editarTipoProducto(id) {
       fetch('<?php echo constant('URL'); ?>tipoProducto/getTipoProductoById', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: 'tipo_producto_id=' + id
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          Swal.fire('Error', data.error, 'error');
-        } else {
-          console.log(data);
-          document.querySelector('#formTipoProductoEditar input[name="tipo_producto_id"]').value = data.tipo_producto_id;
-          document.querySelector('#formTipoProductoEditar input[name="catalogo"]').value = data.catalogo;
-          document.querySelector('#formTipoProductoEditar textarea[name="descripcion"]').value = data.descripcion;
-          new bootstrap.Modal(document.getElementById('modalTipoProductoEditar')).show();
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        Swal.fire('Error', 'Ocurrió un error al obtener los datos.', 'error');
-      });
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: 'tipo_producto_id=' + id
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            Swal.fire('Error', data.error, 'error');
+          } else {
+            console.log(data);
+            document.querySelector('#formTipoProductoEditar input[name="tipo_producto_id"]').value = data.tipo_producto_id;
+            document.querySelector('#formTipoProductoEditar input[name="catalogo"]').value = data.catalogo;
+            document.querySelector('#formTipoProductoEditar textarea[name="descripcion"]').value = data.descripcion;
+            new bootstrap.Modal(document.getElementById('modalTipoProductoEditar')).show();
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          Swal.fire('Error', 'Ocurrió un error al obtener los datos.', 'error');
+        });
     }
 
     function eliminarTipoProducto(id, form) {

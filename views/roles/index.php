@@ -131,7 +131,7 @@ $roles = $this->d['roles'];
             </div>
             <div class="d-grid">
               <button type="submit" class="btn btn-primary">
-                <i class="bi bi-save2 me-1"></i> Guardar
+                <i class="bi bi-arrow-clockwise me-1"></i> Actualizar
               </button>
             </div>
           </form>

@@ -23,6 +23,7 @@ class LoginController extends SessionController
    * Modelo utilizado para manejar la lógica de autenticación de usuarios.
    */
   public $LoginModel;
+  protected $UserModel;
 
   /**
    * @var View $view
@@ -39,6 +40,7 @@ class LoginController extends SessionController
   {
     $this->view = new View;
     $this->LoginModel = new LoginModel();
+    $this->UserModel = new UserModel();
     parent::__construct();
   }
 
@@ -71,6 +73,8 @@ class LoginController extends SessionController
       if ($username == '' || empty($username) || $password == '' || empty($password)) {
         $this->redirect('', ['error' => 'Por favor, completa todos los campos.']);
       }
+      $password = $this->UserModel->encriptar_desencriptar('encriptar', $password);
+      error_log("LOGINCONTROLLER::authenticate => password: $password");
       $user =  $this->LoginModel->login($username, $password);
 
       if ($user != null) {

@@ -23,6 +23,7 @@ class ErrorMessages
   const ERROR_TIPOPRODUCTO_UPDATETIPOPRODUCTO_DATOSFALTANTES = '7g8h9i0ja2b0f3c4d5e6f1k2l3m4n5o6';
   const ERROR_PRODUCTO_NEWPRODUCTO_DATOSFALTANTES = '5dd56caa0bc9def2f9d1c234dc54f2c1';
   const ERROR_ROLES_NEWROL_DATOSFALTANTES = '4b10a9a9f506147e5ff47975beceedb7';
+  const ERROR_USUARIO_USUARIO_DATOSFALTANTES = '7ga2bd5e6f0f3c48h9i0j1k2l3m4n5o6';
   
   private $errorList = [];
 
@@ -42,6 +43,7 @@ class ErrorMessages
       ErrorMessages::ERROR_TIPOPRODUCTO_UPDATETIPOPRODUCTO_DATOSFALTANTES => "Datos faltantes para actualizar el tipo de producto",
       ErrorMessages::ERROR_PRODUCTO_NEWPRODUCTO_DATOSFALTANTES => "Datos faltantes para crear un nuevo producto",
       ErrorMessages::ERROR_ROLES_NEWROL_DATOSFALTANTES => "Datos faltantes para crear un nuevo rol",
+      ErrorMessages::ERROR_USUARIO_USUARIO_DATOSFALTANTES => "Datos faltantes para crear un nuevo usuario",
     ];
   }
 
