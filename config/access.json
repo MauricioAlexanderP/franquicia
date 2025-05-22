@@ -7,6 +7,16 @@
       "role": ""
     },
     {
+      "site": "logout",
+      "access":"private",
+      "role": 1
+    },
+    {
+      "site": "logout",
+      "access":"private",
+      "role": 2
+    },
+    {
       "site": "tienda",
       "access": "private",
       "role": 1
@@ -39,6 +49,7 @@
   ],
 
   "default-sites":{
-    "1" : "tienda"
+    "1" : "tienda",
+    "2" : "ventas"
   }
 }
