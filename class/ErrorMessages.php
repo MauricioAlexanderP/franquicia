@@ -24,7 +24,8 @@ class ErrorMessages
   const ERROR_PRODUCTO_NEWPRODUCTO_DATOSFALTANTES = '5dd56caa0bc9def2f9d1c234dc54f2c1';
   const ERROR_ROLES_NEWROL_DATOSFALTANTES = '4b10a9a9f506147e5ff47975beceedb7';
   const ERROR_USUARIO_USUARIO_DATOSFALTANTES = '7ga2bd5e6f0f3c48h9i0j1k2l3m4n5o6';
-  
+  const ERROR_INVENTARIO_NEWPRODUCTO_DATOSFALTANTES = 'aa0bc9def25dd56cf9d1c234dc54f2c1';
+  const ERROR_INVENTARIO_PRODUCTO_YA_REGISTRADO = 'b648023f9ddfe4806970cc9';
   private $errorList = [];
 
   public function __construct()
@@ -44,6 +45,8 @@ class ErrorMessages
       ErrorMessages::ERROR_PRODUCTO_NEWPRODUCTO_DATOSFALTANTES => "Datos faltantes para crear un nuevo producto",
       ErrorMessages::ERROR_ROLES_NEWROL_DATOSFALTANTES => "Datos faltantes para crear un nuevo rol",
       ErrorMessages::ERROR_USUARIO_USUARIO_DATOSFALTANTES => "Datos faltantes para crear un nuevo usuario",
+      ErrorMessages::ERROR_INVENTARIO_NEWPRODUCTO_DATOSFALTANTES => "Datos faltantes para crear un nuevo producto en el inventario",
+      ErrorMessages::ERROR_INVENTARIO_PRODUCTO_YA_REGISTRADO => "El producto ya está registrado en el inventario",
     ];
   }
 

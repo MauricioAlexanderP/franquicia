@@ -1,28 +1,30 @@
+<?php
+$inventario = $this->d['inventario'];
+?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Inventario</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-  <style>
-
-  </style>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="assets/css/tienda.css" />
 </head>
+
 <body>
+  <?php
+  $this->showMessages();
+  ?>
   <!-- Sidebar -->
   <nav class="sidebar">
     <h4><i class="bi bi-shop-window me-2"></i>Mi Tienda</h4>
     <a href="#"><i class="bi bi-house-door-fill"></i> Inicio</a>
-    <a href="#"><i class="bi bi-tags-fill"></i> Tipos de Tienda</a>
-    <a href="#"><i class="bi bi-building"></i> Tiendas</a>
-    <a href="#"><i class="bi bi-box"></i> Tipos de Producto</a>
-    <a href="#"><i class="bi bi-box2"></i> Productos</a>
-    <a href="#"><i class="bi bi-person-gear"></i> Roles</a>
-    <a href="#"><i class="bi bi-people-fill"></i> Usuarios</a>
-    <a href="#"><i class="bi bi-clipboard-data"></i> Inventario</a>
-    <a href="#"><i class="bi bi-receipt-cutoff"></i> Ventas</a>
+    <a href="<?php echo constant('URL'); ?>productosInventario"><i class="bi bi-box2"></i> Productos</a>
+    <a href="<?php echo constant('URL'); ?>inventario"><i class="bi bi-clipboard-data"></i> Inventario</a>
     <a href="#"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
   </nav>
 
@@ -41,32 +43,32 @@
             <table class="table table-hover align-middle">
               <thead class="table-light">
                 <tr>
-                  <th>ID</th>
-                  <th>Tienda</th>
                   <th>Producto</th>
+                  <th>Imagen</th>
                   <th>Cantidad</th>
-                  <th>Última Actualización</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <!-- Fila de ejemplo -->
-                <tr>
-                  <td>1</td>
-                  <td>Tienda Centro</td>
-                  <td>Smartphone Galaxy A14</td>
-                  <td>35</td>
-                  <td>2025-04-08</td>
-                  <td>
-                    <button class="btn btn-edit me-1" onclick="editarInventario(1, 1, 1, 35, '2025-04-08')">
-                      <i class="bi bi-pencil-square"></i> Editar
-                    </button>
-                    <button class="btn btn-delete" onclick="eliminarInventario(1)">
-                      <i class="bi bi-trash3-fill"></i> Eliminar
-                    </button>
-                  </td>
-                </tr>
-                <!-- Más filas dinámicas -->
+                <?php foreach ($inventario as $item): ?>
+                  <tr>
+                    <td><?php echo $item['producto_id'] ?></td>
+                    <td><img src="<?php echo constant('URL') . 'public/imgs/' . $item['imagen'] ?>" width="50" height="50" style="object-fit: cover;"></td>
+                    <td><?php echo $item['stock'] ?></td>
+                    <td>
+                      <button class="btn btn-edit me-1" onclick="editarInventario(1, 1, 1, 35, '2025-04-08')">
+                        <i class="bi bi-pencil-square"></i> Editar
+                      </button>
+                      <!-- Formulario Eliminar -->
+                      <form action="<?php echo constant('URL'); ?>inventario/deleteProducto" method="POST" class="d-inline">
+                        <input type="hidden" name="inventario_id" value="<?php echo $item['inventario_id']; ?>">
+                        <button type="button" class="btn btn-delete" onclick="eliminarProducto(<?php echo $item['inventario_id']; ?>, this.form)">
+                          <i class="bi bi-trash3-fill"></i> Eliminar
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
               </tbody>
             </table>
           </div>
@@ -134,17 +136,25 @@
       new bootstrap.Modal(document.getElementById('modalInventario')).show();
     }
 
-    function eliminarInventario(id) {
-      if (confirm('¿Estás seguro de eliminar este registro?')) {
-        alert("Inventario con ID " + id + " eliminado (simulado)");
-      }
+    function eliminarProducto(id, form) {
+      console.log(id);
+      event.preventDefault();
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Si se confirma, envía el formulario para llamar a deleteTienda del controller
+          form.submit();
+        }
+      });
     }
-
-    document.getElementById('formInventario').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert("Inventario guardado (simulado)");
-      new bootstrap.Modal(document.getElementById('modalInventario')).hide();
-    });
   </script>
 </body>
+
 </html>
