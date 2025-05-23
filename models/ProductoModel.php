@@ -85,6 +85,7 @@ class ProductoModel extends Model implements IModel
       $this->setImagen($tienda['imagen']);
       $this->setPrecio($tienda['precio']);
       return $this;
+      
     } catch (\Throwable $th) {
       error_log("PRODUCTOMODEL::get -> Error: " . $th->getMessage());
       return false;
