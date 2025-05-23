@@ -45,6 +45,21 @@
       "site": "usuarios",
       "access": "private",
       "role": 1
+    },
+    {
+      "site": "ventas",
+      "access": "private",
+      "role": 2
+    },
+    {
+      "site":"inventario",
+      "access":"private",
+      "role": 3
+    },
+    {
+      "site": "productosInventario",
+      "access": "private",
+      "role": 3
     }
   ],
 
