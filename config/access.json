@@ -17,11 +17,6 @@
       "role": 2
     },
     {
-      "site": "logout",
-      "access":"private",
-      "role": 3
-    },
-    {
       "site": "tienda",
       "access": "private",
       "role": 1
@@ -63,6 +58,11 @@
     },
     {
       "site": "productosInventario",
+      "access": "private",
+      "role": 3
+    },
+    {
+      "site": "logout",
       "access": "private",
       "role": 3
     }
