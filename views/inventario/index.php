@@ -25,7 +25,7 @@ $inventario = $this->d['inventario'];
     <a href="#"><i class="bi bi-house-door-fill"></i> Inicio</a>
     <a href="<?php echo constant('URL'); ?>productosInventario"><i class="bi bi-box2"></i> Productos</a>
     <a href="<?php echo constant('URL'); ?>inventario"><i class="bi bi-clipboard-data"></i> Inventario</a>
-    <a href="#"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
+    <a href="<?php echo constant('URL'); ?>logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
   </nav>
 
   <!-- Main Content -->
