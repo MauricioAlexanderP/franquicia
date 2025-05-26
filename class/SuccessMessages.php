@@ -29,6 +29,9 @@ class SuccessMessages{
   const SUCCESS_USUARIO_DELETE_USUARIO = '5e6f7g9i1a870j1a2b0f39ic4d5e6f7g8h';
   const SUCCESS_INVENTARIO_NEWPRODUCTO_GUARDADDA = 'g8h9i0j1k2la2b0f3c4d5e6f73m4n5o6';
   const SUCCESS_INVENTARIO_PRODUCTO_ELIMINADO = '5e6f7g8h9i0j1k2l230f3c4d4n5o6a2b';
+  const PRODUCTOS_AGREGADOS = '4d5e6f7g8ha2b0f3c9i0j1k2l3m4n5o6';
+  const PRODUCTO_ELIMINADO = '5e6f7g8h9i0j1k2l3m4n5o6a2b0f3c4d';
+  const SUCCESS_VENTA_REGISTRADA = 'd5e6f7g8h9i0ja2b0f3c41k2l3m4n5o6';
   private $successList = [];
 
   public function __construct()
@@ -57,6 +60,9 @@ class SuccessMessages{
       SuccessMessages::SUCCESS_USUARIO_DELETE_USUARIO => "Usuario eliminado exitosamente.",
       SuccessMessages::SUCCESS_INVENTARIO_NEWPRODUCTO_GUARDADDA => "El producto se ha agregado al inventario exitosamente",
       SuccessMessages::SUCCESS_INVENTARIO_PRODUCTO_ELIMINADO => "El producto se ha eliminado del inventario exitosamente",
+      SuccessMessages::PRODUCTOS_AGREGADOS => "Los productos se han agregado al carrito exitosamente",
+      SuccessMessages::PRODUCTO_ELIMINADO => "El producto se ha eliminado del carrito exitosamente",
+      SuccessMessages::SUCCESS_VENTA_REGISTRADA => "La venta se ha registrado exitosamente",
     ];
   }
 

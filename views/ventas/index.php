@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ventas</title>
-   <?php require_once 'views/header.php'; ?>
+  <?php require_once 'views/header.php'; ?>
 </head>
 
 <body>
@@ -16,6 +17,7 @@
     <h4><i class="bi bi-shop-window me-2"></i>Mi Tienda</h4>
     <a href="<?php echo constant('URL'); ?>ventas"><i class="bi bi-house-door-fill"></i> Inicio</a>
     <a href="<?php echo constant('URL'); ?>ventas"><i class="bi bi-receipt-cutoff"></i> Ventas</a>
+    <a href="<?php echo constant('URL'); ?>registrarVenta"><i class="bi bi-cart2"></i> Registrar Venta</a>
     <a href="<?php echo constant('URL'); ?>logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
   </nav>
 

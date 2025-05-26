@@ -71,6 +71,37 @@ class ProductoModel extends Model implements IModel
     }
   }
 
+  public function getProductosByTienda($tienda_id)
+  {
+    $items = [];
+
+    try {
+      $query = $this->db->consulta("
+        SELECT p.producto_id, p.imagen , p.nombre, p.descripcion, p.precio, tp.catalogo as tipo
+        FROM inventario i
+        INNER JOIN tienda t on i.tienda_id = t.tienda_id
+        INNER JOIN producto p on i.producto_id = p.producto_id
+        INNER JOIN tipo_producto tp on p.tipo_producto_id = tp.tipo_producto_id
+        WHERE t.tienda_id = $tienda_id AND i.estado = 1
+      ");
+
+      while($p = $query->fetch_assoc()) {
+        $items[] = [
+          'producto_id' => $p['producto_id'],
+          'imagen' => $p['imagen'],
+          'nombre' => $p['nombre'],
+          'descripcion' => $p['descripcion'],
+          'precio' => $p['precio'],
+          'tipo_producto' => $p['tipo']
+        ];
+      }
+    } catch (\Throwable $th) {
+      error_log("INVENTARIOMODEL::getInventarioByTienda -> Error: " . $th->getMessage());
+      return [];
+    }
+    return $items;
+  }
+
   public function get($id)
   {
     try {

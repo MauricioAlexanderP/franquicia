@@ -26,6 +26,10 @@ class ErrorMessages
   const ERROR_USUARIO_USUARIO_DATOSFALTANTES = '7ga2bd5e6f0f3c48h9i0j1k2l3m4n5o6';
   const ERROR_INVENTARIO_NEWPRODUCTO_DATOSFALTANTES = 'aa0bc9def25dd56cf9d1c234dc54f2c1';
   const ERROR_INVENTARIO_PRODUCTO_YA_REGISTRADO = 'b648023f9ddfe4806970cc9';
+  const PRODUCTOS_NO_SELECCIONADOS = 'h9i0jc4d5e6f7g81k2l3m4n5f3co6a2b0';
+  const PRODUCTOS_NO_VALIDOS = 'a2b0f3c4d5e6f7g8h9i0j1k2o6l3m4n5';
+  const PRODUCTO_NO_SELECCIONADO = 'c4d5e6f7a2b0f3g8hk2o6l3m4n59i0j1';
+  const PRODUCTO_NO_ENCONTRADO = 'ac4d5e6f7g2b0f38h9i0j1k2l36m4n5o';
   private $errorList = [];
 
   public function __construct()
@@ -47,6 +51,10 @@ class ErrorMessages
       ErrorMessages::ERROR_USUARIO_USUARIO_DATOSFALTANTES => "Datos faltantes para crear un nuevo usuario",
       ErrorMessages::ERROR_INVENTARIO_NEWPRODUCTO_DATOSFALTANTES => "Datos faltantes para crear un nuevo producto en el inventario",
       ErrorMessages::ERROR_INVENTARIO_PRODUCTO_YA_REGISTRADO => "El producto ya está registrado en el inventario",
+      ErrorMessages::PRODUCTOS_NO_SELECCIONADOS => "No se han seleccionado productos.",
+      ErrorMessages::PRODUCTOS_NO_VALIDOS => "Los productos seleccionados no son válidos.",
+      ErrorMessages::PRODUCTO_NO_SELECCIONADO => "No se ha seleccionado ningún producto.",
+      ErrorMessages::PRODUCTO_NO_ENCONTRADO => "El producto no se ha encontrado en el inventario.",
     ];
   }
 

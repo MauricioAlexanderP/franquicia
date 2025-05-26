@@ -12,11 +12,6 @@
       "role": 1
     },
     {
-      "site": "logout",
-      "access":"private",
-      "role": 2
-    },
-    {
       "site": "tienda",
       "access": "private",
       "role": 1
@@ -47,11 +42,6 @@
       "role": 1
     },
     {
-      "site": "ventas",
-      "access": "private",
-      "role": 2
-    },
-    {
       "site":"inventario",
       "access":"private",
       "role": 3
@@ -65,6 +55,21 @@
       "site": "logout",
       "access": "private",
       "role": 3
+    },
+    {
+      "site": "ventas",
+      "access": "private",
+      "role": 2
+    },
+    {
+      "site": "registrarVenta",
+      "access": "private",
+      "role": 2
+    },
+    {
+      "site": "logout",
+      "access":"private",
+      "role": 2
     }
   ],
 
