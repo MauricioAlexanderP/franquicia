@@ -19,5 +19,7 @@
             "email": "mauricio.perez24@itca.edu.sv"
         }
     ],
-    "require": {}
+    "require": {
+        "tecnickcom/tcpdf": "6.9"
+    }
 }
