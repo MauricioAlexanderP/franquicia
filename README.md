@@ -7,6 +7,9 @@
 
 - Facilitar reportes y análisis con estadísticas claves sobre el rendimiento de cada franquicia con gráficos de análisis de productos mas vendidos y rentabilidad por sucursal
 
+## Documentacion del proyecto
+https://deepwiki.com/MauricioAlexanderP/franquicia
+
 ## Estructura del Proyecto
 
 ```
