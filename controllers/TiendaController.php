@@ -51,7 +51,7 @@ class TiendaController extends SessionController
   {
     error_log("TIENDACONTROLLLER::newTienda");
 
-    if (!$this->existPOST(['tipo_tienda_id', 'ubicacion', 'encargado', 'telefono', 'hora_entrada', 'hora_salida'])) {
+    if (!$this->existPOST(['tipo_tienda_id', 'ubicacion', 'encargado', 'telefono', 'hora_entrada', 'hora_salida', 'nombre_tienda'])) {
       $this->redirect('tienda', ['error' => ErrorMessages::ERROR_TIENDA_NEWTIENDA_DATOSFALTANTES]);
       return;
     }
@@ -63,6 +63,7 @@ class TiendaController extends SessionController
     $tienda->setTelefono($this->getPost('telefono'));
     $tienda->setHoraEntrada($this->getPost('hora_entrada'));
     $tienda->setHoraSalida($this->getPost('hora_salida'));
+    $tienda->setNombreTienda($this->getPost('nombre_tienda'));
 
     $tienda->save();
     $this->redirect('tienda', ['success' => SuccessMessages::SUCCESS_TIENDA_NEWTIENDA_GUARDADDA]);
@@ -98,7 +99,7 @@ class TiendaController extends SessionController
   public function updateTienda()
   {
     error_log("TIENDACONTROLLLER::updateTienda");
-    if (!$this->existPOST(['tienda_id', 'tipo_tienda_id', 'ubicacion', 'encargado', 'telefono', 'hora_entrada', 'hora_salida'])) {
+    if (!$this->existPOST(['tienda_id', 'tipo_tienda_id', 'ubicacion', 'encargado', 'telefono', 'hora_entrada', 'hora_salida', 'nombre_tienda'])) {
       echo json_encode(['error' => ErrorMessages::ERROR_TIENDA_UPDATETIENDA_DATOSFALTANTES]);
       return;
     }
@@ -111,6 +112,7 @@ class TiendaController extends SessionController
     $tienda->setTelefono($this->getPost('telefono'));
     $tienda->setHoraEntrada($this->getPost('hora_entrada'));
     $tienda->setHoraSalida($this->getPost('hora_salida'));
+    $tienda->setNombreTienda($this->getPost('nombre_tienda'));
 
     $tienda->update();
     $this->redirect('tienda', ['success' => SuccessMessages::SUCCESS_TIENDA_UPDATE_GUARDADDA]);

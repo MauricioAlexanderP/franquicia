@@ -52,6 +52,7 @@ $tipoTienda = $this->d['tipoTienda'];
               <thead class="table-light">
                 <tr>
                   <th>ID</th>
+                  <th>Nombre</th>
                   <th>Tipo</th>
                   <th>Ubicación</th>
                   <th>Encargado</th>
@@ -65,6 +66,7 @@ $tipoTienda = $this->d['tipoTienda'];
                 <?php foreach ($tiendas as $tienda): ?>
                   <tr>
                     <td><?php echo $tienda['tienda_id']; ?></td>
+                    <td><?php echo $tienda['nombre_tienda']; ?></td>
                     <td><?php echo $tienda['tipo_tienda_id']; ?></td>
                     <td><?php echo $tienda['ubicacion']; ?></td>
                     <td><?php echo $tienda['encargado']; ?></td>
@@ -110,6 +112,11 @@ $tipoTienda = $this->d['tipoTienda'];
           <form action="<?php echo constant('URL'); ?>tienda/newTienda" method="POST" id="formTienda">
             <input type="hidden" id="tienda_id" name="tienda_id" value="">
             <div class="row">
+              <!-- NUEVO CAMPO: Nombre de Tienda -->
+              <div class="col-md-12 mb-3">
+                <label class="form-label">Nombre de la Tienda</label>
+                <input type="text" class="form-control" name="nombre_tienda" required>
+              </div>
               <div class="col-md-6 mb-3">
                 <label class="form-label">Tipo de Tienda</label>
                 <select class="form-select" name="tipo_tienda_id" required>
@@ -164,6 +171,11 @@ $tipoTienda = $this->d['tipoTienda'];
           <form action="<?php echo constant('URL'); ?>tienda/updateTienda" method="POST" id="formTiendaEditar">
             <input type="hidden" id="tienda_id" name="tienda_id" value="">
             <div class="row">
+              <!-- NUEVO CAMPO: Nombre de Tienda -->
+              <div class="col-md-12 mb-3">
+                <label class="form-label">Nombre de la Tienda</label>
+                <input type="text" class="form-control" name="nombre_tienda" required>
+              </div>
               <div class="col-md-6 mb-3">
                 <label class="form-label">Tipo de Tienda</label>
                 <select class="form-select" name="tipo_tienda_id" required>
@@ -229,6 +241,7 @@ $tipoTienda = $this->d['tipoTienda'];
             document.querySelector('#formTiendaEditar input[name="ubicacion"]').value = data.ubicacion;
             document.querySelector('#formTiendaEditar input[name="hora_entrada"]').value = data.hora_entrada;
             document.querySelector('#formTiendaEditar input[name="hora_salida"]').value = data.hora_salida;
+            document.querySelector('#formTiendaEditar input[name="nombre_tienda"]').value = data.nombre_tienda;
 
             new bootstrap.Modal(document.getElementById('modalTiendaEditar')).show();
           }
