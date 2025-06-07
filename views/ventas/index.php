@@ -1,3 +1,6 @@
+<?php
+$ventas = $this->d['ventas'];
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -27,9 +30,9 @@
       <div class="card shadow">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0"><i class="bi bi-receipt-cutoff me-2"></i>Registro de Ventas</h5>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalVenta">
+          <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalVenta">
             <i class="bi bi-plus-circle me-1"></i> Nueva Venta
-          </button>
+          </button> -->
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -37,31 +40,27 @@
               <thead class="table-light">
                 <tr>
                   <th>ID</th>
-                  <th>Tienda</th>
                   <th>Fecha</th>
                   <th>Monto Total</th>
-                  <th>Método de Pago</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <!-- Fila de ejemplo -->
-                <tr>
-                  <td>1</td>
-                  <td>Tienda Centro</td>
-                  <td>2025-04-10 15:30</td>
-                  <td>$350.00</td>
-                  <td>Tarjeta</td>
-                  <td>
-                    <button class="btn btn-edit me-1" onclick="editarVenta(1, 1, '2025-04-10T15:30', 350.00, 'Tarjeta')">
-                      <i class="bi bi-pencil-square"></i> Editar
-                    </button>
-                    <button class="btn btn-delete" onclick="eliminarVenta(1)">
-                      <i class="bi bi-trash3-fill"></i> Eliminar
-                    </button>
-                  </td>
-                </tr>
-                <!-- Más filas dinámicas -->
+                <?php foreach ($ventas as $venta): ?>
+                  <tr>
+                    <td><?php echo $venta->getVentaId(); ?></td>
+                    <td><?php echo $venta->getFechaVenta(); ?></td>
+                    <td><?php echo '$ ' . number_format($venta->getMontoTotal(), 2); ?></td>
+                    <td>
+                      <!-- <button class="btn btn-edit me-1" onclick="editarVenta(<?php echo $venta->getVentaId(); ?>, <?php echo $venta->getTiendaId(); ?>, '<?php echo $venta->getFechaVenta(); ?>', <?php echo $venta->getMontoTotal(); ?>, 'Efectivo')">
+                        <i class="bi bi-pencil-square"></i> Editar
+                      </button> -->
+                      <!-- <button class="btn btn-delete" onclick="eliminarVenta(<?php echo $venta->getVentaId(); ?>)">
+                        <i class="bi bi-trash3-fill"></i> Eliminar
+                      </button>
+                    </td> -->
+                  </tr>
+                <?php endforeach; ?>
               </tbody>
             </table>
           </div>

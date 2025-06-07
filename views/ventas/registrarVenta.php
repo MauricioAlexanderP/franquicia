@@ -16,7 +16,7 @@ $productos = $this->d['productos'];
 
 <body>
   <?php $this->showMessages();
-  error_log("VENTAS::registrarVenta -> SESSION: " . print_r($_SESSION['carrito'], true));
+  // error_log("VENTAS::registrarVenta -> SESSION: " . print_r($_SESSION['carrito'], true));
   ?>
 
   <!-- Sidebar -->
@@ -74,7 +74,8 @@ $productos = $this->d['productos'];
                         data-id="<?php echo $producto['producto_id']; ?>"
                         data-imagen="<?php echo constant('URL') . 'public/imgs/' . $producto['imagen']; ?>"
                         data-nombre="<?php echo $producto['nombre']; ?>"
-                        data-precio="<?php echo $producto['precio']; ?>">
+                        data-precio="<?php echo $producto['precio']; ?>"
+                        data-productoId="<?php echo $producto['producto_id']; ?>">
                     </td>
                     <td><?php echo $producto['producto_id']; ?></td>
                     <td><img src="<?php echo constant('URL') . 'public/imgs/' . $producto['imagen']; ?>" alt="Imagen" width="50" height="50" style="object-fit: cover;"></td>
@@ -160,7 +161,7 @@ $productos = $this->d['productos'];
               </ul>
               <!-- Campos ocultos para enviar los valores -->
               <input type="hidden" name="subtotal" value="<?= $subtotal ?>">
-              <input type="hidden" name="total" value="<?= $total ?>">
+              <input type="hidden" name="Total" value="<?= $total ?>">
               <!-- Botón para procesar el pago -->
               <button type="submit" class="btn btn-success w-100 mt-4">Procesar pago</button>
             </form>
@@ -203,17 +204,21 @@ $productos = $this->d['productos'];
     function calcularTotal() {
       let subtotal = 0;
 
+      // Recalcular el subtotal basado en los productos del carrito
       document.querySelectorAll('.product-item').forEach(item => {
         const price = parseFloat(item.querySelector('.product-price').dataset.price);
         const quantity = parseInt(item.querySelector('.quantity').value);
         subtotal += price * quantity;
       });
 
-
       const total = subtotal;
 
+      // Actualizar los valores mostrados en la vista
       document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
       document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+
+      // Actualizar el valor del campo oculto en el formulario
+      document.querySelector('input[name="Total"]').value = total.toFixed(2);
     }
 
     document.getElementById('btnSeleccionProductos').addEventListener('click', function(event) {

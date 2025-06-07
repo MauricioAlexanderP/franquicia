@@ -30,6 +30,8 @@ class ErrorMessages
   const PRODUCTOS_NO_VALIDOS = 'a2b0f3c4d5e6f7g8h9i0j1k2o6l3m4n5';
   const PRODUCTO_NO_SELECCIONADO = 'c4d5e6f7a2b0f3g8hk2o6l3m4n59i0j1';
   const PRODUCTO_NO_ENCONTRADO = 'ac4d5e6f7g2b0f38h9i0j1k2l36m4n5o';
+  const ERROR_REGISTRAR_VENTA = 'a27g8h9ib0f3c4d5e6f0j1k2l3m4n5o6';
+  const STOCK_INSUFICIENTE = 'f3c4d5a27g8h9ib0e6f0j1k2l3m4n5o6';
   private $errorList = [];
 
   public function __construct()
@@ -55,6 +57,8 @@ class ErrorMessages
       ErrorMessages::PRODUCTOS_NO_VALIDOS => "Los productos seleccionados no son válidos.",
       ErrorMessages::PRODUCTO_NO_SELECCIONADO => "No se ha seleccionado ningún producto.",
       ErrorMessages::PRODUCTO_NO_ENCONTRADO => "El producto no se ha encontrado en el inventario.",
+      ErrorMessages::ERROR_REGISTRAR_VENTA => "Error al registrar la venta. Por favor, inténtalo de nuevo.",
+      ErrorMessages::STOCK_INSUFICIENTE => "No hay suficiente stock para completar la venta",
     ];
   }
 

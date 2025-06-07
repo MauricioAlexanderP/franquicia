@@ -16,6 +16,25 @@ class Conexion
   {
     return $this->con->query($sql);
   }
+  public function beginTransaction()
+  {
+    $this->con->begin_transaction();
+  }
+
+  public function commit()
+  {
+    $this->con->commit();
+  }
+
+  public function rollBack()
+  {
+    $this->con->rollback();
+  }
+
+  public function getLastInsertId()
+  {
+    return $this->con->insert_id;
+  }
 
   // public function prepare($sql)
   // {
