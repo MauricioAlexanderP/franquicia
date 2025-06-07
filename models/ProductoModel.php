@@ -85,7 +85,7 @@ class ProductoModel extends Model implements IModel
         WHERE t.tienda_id = $tienda_id AND i.estado = 1
       ");
 
-      while($p = $query->fetch_assoc()) {
+      while ($p = $query->fetch_assoc()) {
         $items[] = [
           'producto_id' => $p['producto_id'],
           'imagen' => $p['imagen'],
@@ -116,7 +116,6 @@ class ProductoModel extends Model implements IModel
       $this->setImagen($tienda['imagen']);
       $this->setPrecio($tienda['precio']);
       return $this;
-      
     } catch (\Throwable $th) {
       error_log("PRODUCTOMODEL::get -> Error: " . $th->getMessage());
       return false;
@@ -177,6 +176,49 @@ class ProductoModel extends Model implements IModel
       'precio' => $this->precio,
       'estado' => $this->estado
     ];
+  }
+
+  public function verificarStock($tienda_id, $producto_id, $cantidad_solicitada)
+  {
+    try {
+      $query = $this->db->consulta("
+            SELECT stock 
+            FROM inventario 
+            WHERE tienda_id = $tienda_id 
+            AND producto_id = $producto_id 
+            AND estado = 1
+        ");
+
+      $result = $query->fetch_assoc();
+
+      if (!$result) {
+        error_log("PRODUCTOMODEL::verificarStock -> Producto no encontrado en inventario");
+        return false;
+      }
+
+      $stock_disponible = $result['stock'];
+
+      return $stock_disponible >= $cantidad_solicitada;
+    } catch (\Throwable $th) {
+      error_log("PRODUCTOMODEL::verificarStock -> Error: " . $th->getMessage());
+      return false;
+    }
+  }
+
+  public function actualizarStock($tienda_id, $producto_id, $cantidad)
+  {
+    try {
+      $query = "UPDATE inventario 
+                SET stock = stock - $cantidad,
+                    ultima_actualizacion = NOW()
+                WHERE tienda_id = $tienda_id 
+                AND producto_id = $producto_id";
+
+      return $this->db->consulta($query);
+    } catch (\Throwable $th) {
+      error_log("PRODUCTOMODEL::actualizarStock -> Error: " . $th->getMessage());
+      return false;
+    }
   }
 
   public function setProductoId($producto_id)

@@ -26,6 +26,7 @@ class RegistrarVentaController extends SessionController
   public function render()
   {
     error_log("REGISTRARVENTACONTROLLER::render -> cargar index");
+    error_log("REGISTRARVENTACONTROLLER::render -> productos: " . print_r($this->getProductos(), true));
     $this->view->render('ventas/registrarVenta', [
       'productos' => $this->getProductos(),
     ]);
@@ -53,7 +54,6 @@ class RegistrarVentaController extends SessionController
     if (!$this->existPOST('productos_seleccionados')) {
       $this->redirect('registrarVenta', [
         'error' => ErrorMessages::PRODUCTOS_NO_SELECCIONADOS,
-        'productos' => $this->productos->getAll()
       ]);
       return;
     }
@@ -73,11 +73,20 @@ class RegistrarVentaController extends SessionController
     if (!isset($_SESSION['carrito'])) {
       $_SESSION['carrito'] = [];
     }
-
     foreach ($productosSeleccionados as $producto) {
       // Validar que el producto tenga los campos necesarios
-      if (!isset($producto['id'], $producto['imagen'], $producto['nombre'], $producto['precio'])) {
+      if (!isset($producto['id'], $producto['imagen'], $producto['nombre'], $producto['precio'], $producto['cantidad'])) {
         continue; // Ignorar productos inválidos
+      }
+
+      // Verificar el stock disponible
+      $tiendaId = $this->dataUser()['tienda_id']; // Obtener el ID de la tienda del usuario
+      $cantidadSolicitada = $producto['cantidad'];
+      if (!$this->productos->verificarStock($tiendaId, $producto['id'], $cantidadSolicitada)) {
+        $this->redirect('registrarVenta', [
+          'error' => ErrorMessages::STOCK_INSUFICIENTE
+        ]);
+        return;
       }
 
       // Verificar si el producto ya está en el carrito
@@ -85,12 +94,11 @@ class RegistrarVentaController extends SessionController
       foreach ($_SESSION['carrito'] as &$item) {
         if ($item['id'] == $producto['id']) {
           // Incrementar la cantidad si ya existe
-          $item['cantidad'] += 1;
+          $item['cantidad'] += $cantidadSolicitada;
           $existe = true;
           break;
         }
       }
-
       // Si no existe, agregarlo al carrito
       if (!$existe) {
         $_SESSION['carrito'][] = [
@@ -98,11 +106,10 @@ class RegistrarVentaController extends SessionController
           'imagen' => $producto['imagen'],
           'nombre' => $producto['nombre'],
           'precio' => $producto['precio'],
-          'cantidad' => 1 // Inicializar con cantidad 1
+          'cantidad' => $cantidadSolicitada // Usar la cantidad solicitada
         ];
       }
     }
-
     // Redirigir o renderizar la vista con el carrito actualizado
     $this->redirect('registrarVenta', [
       'success' => SuccessMessages::PRODUCTOS_AGREGADOS,
