@@ -162,7 +162,8 @@ class TiendaModel extends Model implements IModel
 
     try {
       // Consulta con JOIN para obtener datos de la tienda y el tipo de tienda
-      $query = $this->db->consulta("
+      $query = $this->db->consulta(
+        "
             SELECT t.tienda_id, t.nombre_tienda , tt.tipo AS tipo_tienda_id, tt.tipo_tienda_id as tipo_id, t.ubicacion,t.encargado, t.telefono, t.hora_entrada, t.hora_salida
             FROM tienda t
             INNER JOIN tipo_tienda tt ON t.tipo_tienda_id = tt.tipo_tienda_id
@@ -189,6 +190,14 @@ class TiendaModel extends Model implements IModel
     }
 
     return $items;
+  }
+
+  //dashboard
+  public function getTotalTiendas()
+  {
+    $query = "SELECT COUNT(*) AS total FROM tienda";
+    $result = $this->db->consulta($query)->fetch_assoc();
+    return $result['total'] ?? 0;
   }
 
   //GETTERS Y SETTERS
