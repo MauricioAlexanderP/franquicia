@@ -34,7 +34,9 @@ class InventarioController extends SessionController
   public function render()
   {
     error_log("INVENTARIOCONTROLLER::render ->  ");
-    //error_log("INVENTARIOCONTROLLER::render -> inventario: " . print_r($this->inventario->getInventarioByTienda($this->data['tienda_id']), true));
+    $inventario = $this->getInventario();
+    $this->verificarStockMinimo($inventario);
+
     $this->view->render('inventario/index', [
       'inventario' => $this->getInventario(),
     ]);
@@ -59,12 +61,43 @@ class InventarioController extends SessionController
         // 'inventario_id' => $item->getId(),
         'tienda_id' => $item->getTiendaId(),
         'producto_id' => $item->getProductoId(),
+        'nombre' => $item->getNombre(),
         'stock' => $item->getStock(),
+        'stock_minimo' => $item->getStockMinimo(),
         'imagen' => $item->getImagen(),
         'inventario_id' => $item->getInventarioId(),
       ]);
     }
     return $items;
+  }
+  // Dentro de InventarioController
+
+  private function verificarStockMinimo($inventario)
+  {
+    $productosBajos = [];
+
+    foreach ($inventario as $item) {
+      if ($item['stock'] <= $item['stock_minimo']) {
+        $productosBajos[] = [
+          'nombre' => $item['producto_id'],
+          'stock' => $item['stock'],
+          'minimo' => $item['stock_minimo']
+        ];
+      }
+    }
+
+    if (!empty($productosBajos)) {
+      $_SESSION['notificacion_global'] = [
+        'mensaje' => '¡Alerta de stock mínimo!',
+        'detalle' => "Productos críticos:<br>" .
+          implode('<br>', array_map(
+            fn($p) => "{$p['nombre']} (Stock: {$p['stock']}/{$p['minimo']})",
+            $productosBajos
+          )),
+        'tipo' => 'warning',
+        'mostrar_a_usuarios' => true
+      ];
+    }
   }
 
   public function newProducto()
@@ -109,6 +142,41 @@ class InventarioController extends SessionController
     }
 
     $this->redirect('inventario', ['success' => SuccessMessages::SUCCESS_INVENTARIO_NEWPRODUCTO_GUARDADDA]);
+  }
+
+  public function updateStock()
+  {
+    if(!$this->existPOST(['tienda_id', 'producto_id', 'stock'])) {
+      // Devolver error en formato JSON
+      $this->redirect('inventario', ['error' => ErrorMessages::ERROR_INVENTARIO_UPDATESTOCK_DATOSFALTANTES]);
+      return;
+    }
+    $inventario = new ProductoModel();
+    $inventario->AgregarStock($this->getPost('tienda_id'), $this->getPost('producto_id'), $this->getPost('stock'));
+    $this->redirect('inventario', ['success' => SuccessMessages::SUCCESS_INVENTARIO_STOCK_ACTUALIZADO]);
+  }
+
+  public function getInventarioById()
+  {
+    error_log("INVENTARIOCONTROLLER::getInventarioById");
+    if (!$this->existPOST(['tienda_id', 'producto_id'])) {
+      // Devolver error en formato JSON
+      echo json_encode(['error' => ErrorMessages::ERROR_INVENTARIO_GETINVENTARIOBYID_DATOSFALTANTES]);
+      return;
+    }
+
+    $tienda_id = $this->getPost('tienda_id');
+    $producto_id = $this->getPost('producto_id');
+
+    $inventario = new InventarioModel();
+    $item = $inventario->getByTiendaAndProducto($tienda_id, $producto_id);
+
+    if ($item) {
+      echo json_encode($item->toArray());
+      error_log("INVENTARIOCONTROLLER::getInventarioById -> Inventario encontrado: " . print_r($item->toArray(), true));
+    } else {
+      echo json_encode(['error' => ErrorMessages::PRODUCTO_NO_ENCONTRADO]);
+    }
   }
 
   public function deleteProducto()

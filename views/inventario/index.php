@@ -1,5 +1,11 @@
 <?php
 $inventario = $this->d['inventario'];
+$mostrar_notificacion_global = false;
+if (isset($_SESSION['notificacion_global']) && $_SESSION['notificacion_global']['mostrar_a_usuarios']) {
+  $notificacion_global = $_SESSION['notificacion_global'];
+  $mostrar_notificacion_global = true;
+  unset($_SESSION['notificacion_global']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -12,6 +18,21 @@ $inventario = $this->d['inventario'];
 </head>
 
 <body>
+  <!-- Después de cargar SweetAlert2 -->
+  <?php if ($mostrar_notificacion_global): ?>
+    <script>
+      Swal.fire({
+        title: "<?= $notificacion_global['mensaje'] ?>",
+        html: "<?= $notificacion_global['detalle'] ?>",
+        icon: "<?= $notificacion_global['tipo'] ?>",
+        timer: 7000,
+        timerProgressBar: true,
+        showConfirmButton: true,
+        confirmButtonText: "Entendido"
+      });
+    </script>
+  <?php endif; ?>
+
   <?php
   $this->showMessages();
   ?>
@@ -52,9 +73,15 @@ $inventario = $this->d['inventario'];
                     <td><img src="<?php echo constant('URL') . 'public/imgs/' . $item['imagen'] ?>" width="50" height="50" style="object-fit: cover;"></td>
                     <td><?php echo $item['stock'] ?></td>
                     <td>
-                      <button class="btn btn-edit me-1" onclick="editarInventario(1, 1, 1, 35, '2025-04-08')">
-                        <i class="bi bi-pencil-square"></i> Editar
-                      </button>
+                      <!-- Formulario Editar -->
+                      <form method="POST" class="d-inline">
+                        <input type="hidden" name="tienda_id" value="<?php echo $item['tienda_id']; ?>">
+                        <input type="hidden" name="producto_id" value="<?php echo $item['producto_id']; ?>">
+                        <!-- <input type="hidden" name="inventario_id" value="<?php echo $item['inventario_id']; ?>"> -->
+                        <button type="button" class="btn btn-edit me-1" onclick="editarInventario(<?php echo $item['tienda_id']; ?>, <?php echo $item['nombre']; ?>)">
+                          <i class="bi bi-pencil-square"></i> Editar
+                        </button>
+                      </form>
                       <!-- Formulario Eliminar -->
                       <form action="<?php echo constant('URL'); ?>inventario/deleteProducto" method="POST" class="d-inline">
                         <input type="hidden" name="inventario_id" value="<?php echo $item['inventario_id']; ?>">
@@ -74,43 +101,36 @@ $inventario = $this->d['inventario'];
   </div>
 
   <!-- Modal Inventario -->
+  <!-- Modal Editar Inventario -->
   <div class="modal fade" id="modalInventario" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content shadow-sm">
         <div class="modal-header">
-          <h5 class="modal-title">Nuevo Registro de Inventario</h5>
+          <h5 class="modal-title">Editar Stock</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <form id="formInventario">
-            <input type="hidden" id="inventario_id">
+          <form action="<?php echo constant('URL'); ?>inventario/updateStock" method="POST" id="formEditarStock">
+            <input type="hidden" name="inventario_id" id="inventario_id">
+            <input type="hidden" name="tienda_id" id="tienda_id">
+            <input type="hidden" name="producto_id" id="producto_id">
             <div class="mb-3">
-              <label class="form-label">Tienda</label>
-              <select class="form-select" id="tienda_id" required>
-                <option value="">Selecciona una tienda</option>
-                <option value="1">Tienda Centro</option>
-                <option value="2">Tienda Norte</option>
-              </select>
+              <label class="form-label">Nombre del Producto</label>
+              <input type="text" class="form-control" id="nombre_producto" readonly>
+            </div>
+            <div class="mb-3 text-center">
+              <img id="imagen_producto" src="" alt="Imagen del producto" class="img-thumbnail" style="max-height: 150px;">
             </div>
             <div class="mb-3">
-              <label class="form-label">Producto</label>
-              <select class="form-select" id="producto_id" required>
-                <option value="">Selecciona un producto</option>
-                <option value="1">Smartphone Galaxy A14</option>
-                <option value="2">Laptop HP 250</option>
-              </select>
+              <label class="form-label">Stock</label>
+              <input type="number" class="form-control" name="stock" id="cantidad" min="0" required>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Cantidad</label>
-              <input type="number" class="form-control" id="cantidad" required>
-            </div>
-            <div class="mb-4">
-              <label class="form-label">Última Actualización</label>
-              <input type="date" class="form-control" id="last_updated" required>
+            <div class="mb-3 d-none">
+              <input type="text" class="form-control" id="last_updated" readonly>
             </div>
             <div class="d-grid">
-              <button type="submit" class="btn btn-primary">
-                <i class="bi bi-save2 me-1"></i> Guardar
+              <button type="submit" class="btn btn-success">
+                <i class="bi bi-save me-1"></i> Guardar Cambios
               </button>
             </div>
           </form>
@@ -119,18 +139,51 @@ $inventario = $this->d['inventario'];
     </div>
   </div>
 
+
+
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    function editarInventario(id, tienda_id, producto_id, cantidad, fecha) {
-      document.getElementById('inventario_id').value = id;
-      document.getElementById('tienda_id').value = tienda_id;
-      document.getElementById('producto_id').value = producto_id;
-      document.getElementById('cantidad').value = cantidad;
-      document.getElementById('last_updated').value = fecha;
-      document.querySelector('#modalInventario .modal-title').textContent = 'Editar Registro de Inventario';
-      new bootstrap.Modal(document.getElementById('modalInventario')).show();
+    function editarInventario(tienda_id, producto_id) {
+      console.log('Editar Inventario:', tienda_id, producto_id);
+      fetch('<?php echo constant("URL") ?>inventario/getInventarioById', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: 'tienda_id=' + tienda_id + '&producto_id=' + producto_id
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            Swal.fire('Error', data.error, 'error');
+          } else {
+            // Rellena los inputs ocultos
+            document.getElementById('inventario_id').value = data.inventario_id;
+            document.getElementById('tienda_id').value = data.tienda_id;
+            document.getElementById('producto_id').value = data.producto_id;
+
+            // Solo editable
+            document.getElementById('cantidad').value = data.stock;
+
+            // Información visual (no editable)
+            document.getElementById('nombre_producto').value = data.nombre;
+            document.getElementById('imagen_producto').src = '<?php echo constant("URL"); ?>public/imgs/' + data.imagen;
+
+            // (opcional) Última actualización
+            document.getElementById('last_updated').value = data.ultima_actualizacion;
+
+            // Mostrar el modal
+            const modal = new bootstrap.Modal(document.getElementById('modalInventario'));
+            modal.show();
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          Swal.fire('Error', 'No se pudieron cargar los datos', 'error');
+        });
     }
+
 
     function eliminarProducto(id, form) {
       console.log(id);
@@ -145,7 +198,6 @@ $inventario = $this->d['inventario'];
         confirmButtonText: 'Sí, eliminarlo'
       }).then((result) => {
         if (result.isConfirmed) {
-          // Si se confirma, envía el formulario para llamar a deleteTienda del controller
           form.submit();
         }
       });

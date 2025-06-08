@@ -32,6 +32,8 @@ class ErrorMessages
   const PRODUCTO_NO_ENCONTRADO = 'ac4d5e6f7g2b0f38h9i0j1k2l36m4n5o';
   const ERROR_REGISTRAR_VENTA = 'a27g8h9ib0f3c4d5e6f0j1k2l3m4n5o6';
   const STOCK_INSUFICIENTE = 'f3c4d5a27g8h9ib0e6f0j1k2l3m4n5o6';
+  const ERROR_INVENTARIO_GETINVENTARIOBYID_DATOSFALTANTES = '5e6f7g8h9i0j1ka2b0f3c4d2l3m4n5o6';
+  const ERROR_INVENTARIO_UPDATESTOCK_DATOSFALTANTES = 'a2b0f3c4d5e3m4n5o66f7g8h9i0j1k2l';
   private $errorList = [];
 
   public function __construct()
@@ -59,6 +61,8 @@ class ErrorMessages
       ErrorMessages::PRODUCTO_NO_ENCONTRADO => "El producto no se ha encontrado en el inventario.",
       ErrorMessages::ERROR_REGISTRAR_VENTA => "Error al registrar la venta. Por favor, inténtalo de nuevo.",
       ErrorMessages::STOCK_INSUFICIENTE => "No hay suficiente stock para completar la venta",
+      ErrorMessages::ERROR_INVENTARIO_GETINVENTARIOBYID_DATOSFALTANTES => "Datos faltantes para obtener el inventario por ID",
+      ErrorMessages::ERROR_INVENTARIO_UPDATESTOCK_DATOSFALTANTES => "Datos faltantes para actualizar el stock del inventario",
     ];
   }
 
