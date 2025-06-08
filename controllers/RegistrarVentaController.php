@@ -26,7 +26,7 @@ class RegistrarVentaController extends SessionController
   public function render()
   {
     error_log("REGISTRARVENTACONTROLLER::render -> cargar index");
-    error_log("REGISTRARVENTACONTROLLER::render -> productos: " . print_r($this->getProductos(), true));
+    //error_log("REGISTRARVENTACONTROLLER::render -> productos: " . print_r($this->getProductos(), true));
     $this->view->render('ventas/registrarVenta', [
       'productos' => $this->getProductos(),
     ]);
@@ -75,7 +75,7 @@ class RegistrarVentaController extends SessionController
     }
     foreach ($productosSeleccionados as $producto) {
       // Validar que el producto tenga los campos necesarios
-      if (!isset($producto['id'], $producto['imagen'], $producto['nombre'], $producto['precio'], $producto['cantidad'])) {
+      if (!isset($producto['id'], $producto['imagen'], $producto['nombre'], $producto['precio'])) {
         continue; // Ignorar productos inválidos
       }
 
