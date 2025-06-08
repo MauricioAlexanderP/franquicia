@@ -27,8 +27,8 @@ $productos = $this->d['productos'];
     <a href="<?php echo constant('URL'); ?>producto"><i class="bi bi-box2"></i> Productos</a>
     <a href="<?php echo constant('URL'); ?>roles"><i class="bi bi-person-gear"></i> Roles</a>
     <a href="<?php echo constant('URL'); ?>usuarios"><i class="bi bi-people-fill"></i> Usuarios</a>
-    <!-- <a href="<?php echo constant('URL'); ?>inventario"><i class="bi bi-clipboard-data"></i> Inventario</a>
-    <a href="<?php echo constant('URL'); ?>ventas"><i class="bi bi-receipt-cutoff"></i> Ventas</a> -->
+    <a href="<?php echo constant('URL'); ?>dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <!-- <a href="<?php echo constant('URL'); ?>ventas"><i class="bi bi-receipt-cutoff"></i> Ventas</a> -->
     <a href="<?php echo constant('URL'); ?>logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
   </nav>
 
