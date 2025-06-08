@@ -70,6 +70,35 @@ class InventarioController extends SessionController
     }
     return $items;
   }
+  // Dentro de InventarioController
+
+  private function verificarStockMinimo($inventario)
+  {
+    $productosBajos = [];
+
+    foreach ($inventario as $item) {
+      if ($item['stock'] <= $item['stock_minimo']) {
+        $productosBajos[] = [
+          'nombre' => $item['producto_id'],
+          'stock' => $item['stock'],
+          'minimo' => $item['stock_minimo']
+        ];
+      }
+    }
+
+    if (!empty($productosBajos)) {
+      $_SESSION['notificacion_global'] = [
+        'mensaje' => '¡Alerta de stock mínimo!',
+        'detalle' => "Productos críticos:<br>" .
+          implode('<br>', array_map(
+            fn($p) => "{$p['nombre']} (Stock: {$p['stock']}/{$p['minimo']})",
+            $productosBajos
+          )),
+        'tipo' => 'warning',
+        'mostrar_a_usuarios' => true
+      ];
+    }
+  }
 
   public function newProducto()
   {
