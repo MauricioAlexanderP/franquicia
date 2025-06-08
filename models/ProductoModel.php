@@ -236,6 +236,27 @@ class ProductoModel extends Model implements IModel
     }
   }
 
+  //dashboard
+  public function getTopProductos($tienda_id, $limit = 5)
+  {
+    $query = "SELECT p.nombre, SUM(dv.cantidad) AS total_vendido
+              FROM detalle_venta dv
+              JOIN venta v ON dv.venta_id = v.venta_id
+              JOIN producto p ON dv.producto_id = p.producto_id
+              WHERE v.tienda_id = $tienda_id
+              GROUP BY p.nombre
+              ORDER BY total_vendido DESC
+              LIMIT $limit";
+    return $this->db->consulta($query)->fetch_all(MYSQLI_ASSOC);
+  }
+
+  public function getTotalProductos()
+  {
+    $query = "SELECT COUNT(*) AS total FROM producto";
+    $result = $this->db->consulta($query)->fetch_assoc();
+    return $result['total'] ?? 0;
+  }
+
   public function setProductoId($producto_id)
   {
     $this->producto_id = $producto_id;

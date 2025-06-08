@@ -131,6 +131,55 @@ class VentasModel extends Model implements IModel
       'monto_total' => $this->monto_total,
     ];
   }
+  //dashboard
+  public function getVentasHoy($tienda_id)
+  {
+    $query = "SELECT SUM(monto_total) AS total 
+              FROM venta 
+              WHERE tienda_id = $tienda_id 
+              AND DATE(fecha_venta) = CURDATE()";
+    $result = $this->db->consulta($query)->fetch_assoc();
+    return $result['total'] ?? 0;
+  }
+
+  public function getVentasSemana($tienda_id)
+  {
+    $query = "SELECT SUM(monto_total) AS total 
+              FROM venta 
+              WHERE tienda_id = $tienda_id 
+              AND YEARWEEK(fecha_venta, 1) = YEARWEEK(CURDATE(), 1)";
+    $result = $this->db->consulta($query)->fetch_assoc();
+    return $result['total'] ?? 0;
+  }
+
+  public function getVentasMes($tienda_id)
+  {
+    $query = "SELECT SUM(monto_total) AS total 
+              FROM venta 
+              WHERE tienda_id = $tienda_id 
+              AND MONTH(fecha_venta) = MONTH(CURDATE()) 
+              AND YEAR(fecha_venta) = YEAR(CURDATE())";
+    $result = $this->db->consulta($query)->fetch_assoc();
+    return $result['total'] ?? 0;
+  }
+
+  public function getTendenciaVentas($tienda_id)
+  {
+    $query = "SELECT DATE(fecha_venta) AS fecha, SUM(monto_total) AS total
+              FROM venta 
+              WHERE tienda_id = $tienda_id 
+              AND fecha_venta >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+              GROUP BY DATE(fecha_venta)
+              ORDER BY fecha";
+    return $this->db->consulta($query)->fetch_all(MYSQLI_ASSOC);
+  }
+
+  public function getTotalVentas()
+  {
+    $query = "SELECT COUNT(*) AS total FROM venta";
+    $result = $this->db->consulta($query)->fetch_assoc();
+    return $result['total'] ?? 0;
+  }
 
   public function getLastInsertId()
   {

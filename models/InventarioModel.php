@@ -202,6 +202,38 @@ class InventarioModel extends Model implements IModel
       'imagen' => $this->imagen
     ];
   }
+  //dashboard
+  public function getTotalProductos($tienda_id)
+  {
+    $query = "SELECT COUNT(*) AS total 
+              FROM inventario 
+              WHERE tienda_id = $tienda_id 
+              AND estado = 1";
+    $result = $this->db->consulta($query)->fetch_assoc();
+    return $result['total'] ?? 0;
+  }
+
+  public function getProductosBajoStock($tienda_id)
+  {
+    $query = "SELECT COUNT(*) AS total 
+              FROM inventario 
+              WHERE tienda_id = $tienda_id 
+              AND stock < stock_minimo 
+              AND estado = 1";
+    $result = $this->db->consulta($query)->fetch_assoc();
+    return $result['total'] ?? 0;
+  }
+
+  public function getProductosStockCritico($tienda_id)
+  {
+    $query = "SELECT COUNT(*) AS total 
+              FROM inventario 
+              WHERE tienda_id = $tienda_id 
+              AND stock <= 5 
+              AND estado = 1";
+    $result = $this->db->consulta($query)->fetch_assoc();
+    return $result['total'] ?? 0;
+  }
 
   public function setNombre($nombre)
   {

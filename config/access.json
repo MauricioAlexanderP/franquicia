@@ -42,6 +42,11 @@
       "role": 1
     },
     {
+      "site": "dashboard",
+      "access": "private",
+      "role": 1
+    },
+    {
       "site":"inventario",
       "access":"private",
       "role": 3
