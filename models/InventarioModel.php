@@ -15,6 +15,7 @@ class InventarioModel extends Model implements IModel
   private $estado;
   private $imagen;
   private $ultima_actualizacion;
+  private $nombre;
 
   public function __construct()
   {
@@ -75,7 +76,7 @@ class InventarioModel extends Model implements IModel
 
     try {
       $query = $this->db->consulta("
-      SELECT i.inventario_id,  p.nombre, p.imagen, i.stock, i.stock_minimo
+      SELECT i.tienda_id, i.inventario_id, p.producto_id, p.nombre, p.imagen, i.stock, i.stock_minimo
         FROM inventario i
         INNER JOIN tienda t on i.tienda_id = t.tienda_id
         INNER JOIN producto p on i.producto_id = p.producto_id
@@ -85,6 +86,8 @@ class InventarioModel extends Model implements IModel
       while ($p = $query->fetch_assoc()) {
         $item = new InventarioModel();
         $item->setProductoId($p['nombre']);
+        $item->setTiendaId($p['tienda_id']);
+        $item->setNombre($p['producto_id']);
         $item->setImagen($p['imagen']);
         $item->setStock($p['stock']);
         $item->setStockMinimo($p['stock_minimo']);
@@ -98,11 +101,7 @@ class InventarioModel extends Model implements IModel
     return $items;
   }
 
-  public function get($id)
-  {
-    // TODO
-  }
-
+  public function get($id) {}
   public function delete($id)
   {
     try {
@@ -151,27 +150,67 @@ class InventarioModel extends Model implements IModel
     return $result['count'] > 0; // Retorna true si el producto ya está registrado
   }
 
-  public function toArray()
-  {
-    return [
-      'tienda_id' => $this->tienda_id,
-      'producto_id' => $this->producto_id,
-      'stock' => $this->stock,
-      'stock_minimo' => $this->stock_minimo,
-      'estado' => $this->estado
-    ];
-  }
+  // public function toArray()
+  // {
+  //   return [
+  //     'tienda_id' => $this->tienda_id,
+  //     'producto_id' => $this->producto_id,
+  //     'stock' => $this->stock,
+  //     'stock_minimo' => $this->stock_minimo,
+  //     'estado' => $this->estado
+  //   ];
+  // }
   public function getByTiendaAndProducto($tiendaId, $productoId)
   {
-    $query = "SELECT * FROM inventario WHERE tienda_id = $tiendaId AND producto_id = $productoId LIMIT 1";
+    $query = "SELECT i.inventario_id, i.tienda_id, i.producto_id, i.stock, 
+                      i.ultima_actualizacion, i.stock_minimo, i.estado, 
+                      p.nombre, p.imagen
+              FROM inventario i
+              INNER JOIN producto p ON p.producto_id = i.producto_id
+              WHERE i.tienda_id = $tiendaId AND i.producto_id = $productoId 
+              LIMIT 1";
+
     $stmt = $this->db->consulta($query);
     if ($row = $stmt->fetch_assoc()) {
-      $this->from($row); // Método para cargar los datos en el modelo
+      // Cargar datos en el modelo
+      $this->inventario_id = $row['inventario_id'];
+      $this->tienda_id = $row['tienda_id'];
+      $this->producto_id = $row['producto_id'];
+      $this->stock = $row['stock'];
+      $this->ultima_actualizacion = $row['ultima_actualizacion'];
+      $this->stock_minimo = $row['stock_minimo'];
+      $this->estado = $row['estado'];
+      $this->nombre = $row['nombre'];
+      $this->imagen = $row['imagen'];
+
       return $this;
     }
     return null;
   }
 
+  public function toArray()
+  {
+    return [
+      'inventario_id' => $this->inventario_id,
+      'tienda_id' => $this->tienda_id,
+      'producto_id' => $this->producto_id,
+      'stock' => $this->stock,
+      'stock_minimo' => $this->stock_minimo,
+      'estado' => $this->estado,
+      'ultima_actualizacion' => $this->ultima_actualizacion,
+      'nombre' => $this->nombre,
+      'imagen' => $this->imagen
+    ];
+  }
+
+  public function setNombre($nombre)
+  {
+    $this->nombre = $nombre;
+  }
+  public function getNombre()
+  {
+    return $this->nombre;
+  }
   public function setInventarioId($inventario_id)
   {
     $this->inventario_id = $inventario_id;

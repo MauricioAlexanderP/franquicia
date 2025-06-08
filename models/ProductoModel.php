@@ -220,6 +220,21 @@ class ProductoModel extends Model implements IModel
       return false;
     }
   }
+  public function AgregarStock($tienda_id, $producto_id, $cantidad)
+  {
+    try {
+      $query = "UPDATE inventario 
+                SET stock = stock + $cantidad,
+                    ultima_actualizacion = NOW()
+                WHERE tienda_id = $tienda_id 
+                AND producto_id = $producto_id";
+
+      return $this->db->consulta($query);
+    } catch (\Throwable $th) {
+      error_log("PRODUCTOMODEL::actualizarStock -> Error: " . $th->getMessage());
+      return false;
+    }
+  }
 
   public function setProductoId($producto_id)
   {

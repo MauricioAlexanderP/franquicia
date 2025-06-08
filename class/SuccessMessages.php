@@ -32,6 +32,7 @@ class SuccessMessages{
   const PRODUCTOS_AGREGADOS = '4d5e6f7g8ha2b0f3c9i0j1k2l3m4n5o6';
   const PRODUCTO_ELIMINADO = '5e6f7g8h9i0j1k2l3m4n5o6a2b0f3c4d';
   const SUCCESS_VENTA_REGISTRADA = 'd5e6f7g8h9i0ja2b0f3c41k2l3m4n5o6';
+  const SUCCESS_INVENTARIO_STOCK_ACTUALIZADO = 'a2b0k2l3m4n5o6f3c4d5e6f7g8h9i0j1';
   private $successList = [];
 
   public function __construct()
@@ -63,6 +64,7 @@ class SuccessMessages{
       SuccessMessages::PRODUCTOS_AGREGADOS => "Los productos se han agregado al carrito exitosamente",
       SuccessMessages::PRODUCTO_ELIMINADO => "El producto se ha eliminado del carrito exitosamente",
       SuccessMessages::SUCCESS_VENTA_REGISTRADA => "La venta se ha registrado exitosamente",
+      SuccessMessages::SUCCESS_INVENTARIO_STOCK_ACTUALIZADO => "El stock del inventario se ha actualizado exitosamente",
     ];
   }
 
