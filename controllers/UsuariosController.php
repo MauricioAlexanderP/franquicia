@@ -133,7 +133,7 @@ class UsuariosController extends SessionController
     $usuario->setTelefono($this->getPost('telefono'));
     $usuario->setTiendaId($this->getPost('tienda_id'));
     $usuario->setRolId($this->getPost('rol_id'));
-    
+
     $usuario->update();
     $this->redirect('usuarios', ['success' => SuccessMessages::SUCCESS_USUARIO_UPDATE_USUARIO]);
   }
@@ -148,5 +148,47 @@ class UsuariosController extends SessionController
     $id = $this->getPost('usuario_id');
     $usuario->delete($id);
     $this->redirect('usuarios', ['success' => SuccessMessages::SUCCESS_USUARIO_DELETE_USUARIO]);
+  }
+
+  /**
+   * Cambiar contraseña del usuario
+   */
+  public function changePassword()
+  {
+    if (!$this->existPOST(['current_password', 'new_password', 'confirm_password'])) {
+      $this->redirect('tienda', ['error' => ErrorMessages::ERROR_USUARIO_CAMBIARPASSWORD_DATOSFALTANTES]);
+      return;
+    }
+
+    $currentPassword = $this->getPost('current_password');
+    $newPassword = $this->getPost('new_password');
+    $confirmPassword = $this->getPost('confirm_password');
+
+    // Validar coincidencia de nuevas contraseñas
+    if ($newPassword !== $confirmPassword) {
+      $this->redirect('tienda', ['error' => ErrorMessages::ERROR_USUARIO_CAMBIARPASSWORD_NOMATCH]);
+      return;
+    }
+
+    try {
+      // Obtener usuario actual desde sesión
+      $userId = $_SESSION['user'];
+
+      // Verificar contraseña actual
+      if (!$this->user->verifyCurrentPassword($userId, $currentPassword)) {
+        $this->redirect('tienda', ['error' => ErrorMessages::ERROR_USUARIO_CAMBIARPASSWORD_PASSWORDINCORRECTO]);
+        return;
+      }
+
+      // Actualizar contraseña
+      if ($this->user->updatePassword($userId, $newPassword)) {
+        $this->redirect('tienda', ['success' => SuccessMessages::SUCCESS_USUARIO_CAMBIARPASSWORD]);
+      } else {
+        $this->redirect('tienda', ['error' => ErrorMessages::ERROR_USUARIO_CAMBIARPASSWORD_UPDATE]);
+      }
+    } catch (\Exception $e) {
+      error_log("UsuariosController::changePassword " . $e->getMessage());
+      $this->redirect('tienda', ['error' => ErrorMessages::ERROR_USUARIO_CAMBIARPASSWORD_GENERAL]);
+    }
   }
 }
