@@ -34,6 +34,11 @@ class ErrorMessages
   const STOCK_INSUFICIENTE = 'f3c4d5a27g8h9ib0e6f0j1k2l3m4n5o6';
   const ERROR_INVENTARIO_GETINVENTARIOBYID_DATOSFALTANTES = '5e6f7g8h9i0j1ka2b0f3c4d2l3m4n5o6';
   const ERROR_INVENTARIO_UPDATESTOCK_DATOSFALTANTES = 'a2b0f3c4d5e3m4n5o66f7g8h9i0j1k2l';
+  const ERROR_USUARIO_CAMBIARPASSWORD_DATOSFALTANTES = 'd5e6f7g8h9i0a2b0f3c4j1k2l3m4n5o6';
+  const ERROR_USUARIO_CAMBIARPASSWORD_NOMATCH = 'a2b0f3c4d5e6f7g8h9i0j1k2l3m4n5o6';
+  const ERROR_USUARIO_CAMBIARPASSWORD_PASSWORDINCORRECTO = 'g8h9i0j1k2l3m4n5a2b0f3c4d5e6f7o6';
+  const ERROR_USUARIO_CAMBIARPASSWORD_UPDATE = '2l3m4n5o6a2b0f3c4d5e6f7g8h9i0j1k';
+  const ERROR_USUARIO_CAMBIARPASSWORD_GENERAL = 'a4d5e6f2b0f3c7g8h9i0j1k2l3m4n5';
   private $errorList = [];
 
   public function __construct()
@@ -63,7 +68,12 @@ class ErrorMessages
       ErrorMessages::STOCK_INSUFICIENTE => "No hay suficiente stock para completar la venta",
       ErrorMessages::ERROR_INVENTARIO_GETINVENTARIOBYID_DATOSFALTANTES => "Datos faltantes para obtener el inventario por ID",
       ErrorMessages::ERROR_INVENTARIO_UPDATESTOCK_DATOSFALTANTES => "Datos faltantes para actualizar el stock del inventario",
-    ];
+      ErrorMessages::ERROR_USUARIO_CAMBIARPASSWORD_DATOSFALTANTES => "Datos faltantes para cambiar la contraseña",
+      ErrorMessages::ERROR_USUARIO_CAMBIARPASSWORD_NOMATCH => "Las nuevas contraseñas no coinciden.",
+      ErrorMessages::ERROR_USUARIO_CAMBIARPASSWORD_PASSWORDINCORRECTO => "La contraseña actual es incorrecta.",
+      ErrorMessages::ERROR_USUARIO_CAMBIARPASSWORD_UPDATE => "Error al actualizar la contraseña. Por favor, inténtalo de nuevo.",
+      ErrorMessages::ERROR_USUARIO_CAMBIARPASSWORD_GENERAL => "Error general al cambiar la contraseña. Por favor, inténtalo de nuevo.",
+  ];
   }
 
   public function get($hash)

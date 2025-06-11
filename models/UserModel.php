@@ -138,17 +138,19 @@ class UserModel extends Model implements IModel
     }
   }
 
-  public function getUserAndTiendaRol(){
+  public function getUserAndTiendaRol()
+  {
     $items = [];
     try {
       $query = $this->db->consulta(
-      "SELECT u.usuario_id, t.ubicacion as tienda_id , r.nombre_rol as rol_id, u.nombre_usuario, u.correo, u.contraseña, u.telefono, u.estado
+        "SELECT u.usuario_id, t.ubicacion as tienda_id , r.nombre_rol as rol_id, u.nombre_usuario, u.correo, u.contraseña, u.telefono, u.estado
         FROM usuario u
         INNER JOIN tienda t on u.tienda_id = t.tienda_id
         INNER JOIN rol r on u.rol_id = r.rol_id
-        WHERE u.estado = 1");
-      
-      while($p = $query->fetch_assoc()){
+        WHERE u.estado = 1"
+      );
+
+      while ($p = $query->fetch_assoc()) {
         $item = new UserModel();
         $item->setId($p['usuario_id']);
         $item->setTiendaId($p['tienda_id']);
@@ -226,6 +228,32 @@ class UserModel extends Model implements IModel
     }
   }
 
+  // cambiar la contraseña del usuario
+  public function verifyCurrentPassword($userId, $currentPassword)
+  {
+    try {
+      $user = $this->get($userId);
+      $decryptedPassword = $this->encriptar_desencriptar("desencriptar", $user->getPassword());
+      error_log("USERMODEL::verifyCurrentPassword => Decrypted Password: " . $decryptedPassword);
+      return $currentPassword === $decryptedPassword;
+    } catch (\Throwable $th) {
+      error_log("USERMODEL::verifyCurrentPassword => " . $th->getMessage());
+      return false;
+    }
+  }
+
+  public function updatePassword($userId, $newPassword)
+  {
+    try {
+      $encryptedPassword = $this->encriptar_desencriptar("encriptar", $newPassword);
+      $query = "UPDATE usuario SET contraseña = '$encryptedPassword' WHERE usuario_id = $userId";
+      $this->db->consulta($query);
+      return true;
+    } catch (\Throwable $th) {
+      error_log("USERMODEL::updatePassword => " . $th->getMessage());
+      return false;
+    }
+  }
 
 
   public function setId($usuario_id)

@@ -33,6 +33,7 @@ class SuccessMessages{
   const PRODUCTO_ELIMINADO = '5e6f7g8h9i0j1k2l3m4n5o6a2b0f3c4d';
   const SUCCESS_VENTA_REGISTRADA = 'd5e6f7g8h9i0ja2b0f3c41k2l3m4n5o6';
   const SUCCESS_INVENTARIO_STOCK_ACTUALIZADO = 'a2b0k2l3m4n5o6f3c4d5e6f7g8h9i0j1';
+  const SUCCESS_USUARIO_CAMBIARPASSWORD = 'e6f7g8h9i0ja2b0f3c4d51k2l3m4n5o6';
   private $successList = [];
 
   public function __construct()
@@ -65,6 +66,7 @@ class SuccessMessages{
       SuccessMessages::PRODUCTO_ELIMINADO => "El producto se ha eliminado del carrito exitosamente",
       SuccessMessages::SUCCESS_VENTA_REGISTRADA => "La venta se ha registrado exitosamente",
       SuccessMessages::SUCCESS_INVENTARIO_STOCK_ACTUALIZADO => "El stock del inventario se ha actualizado exitosamente",
+      SuccessMessages::SUCCESS_USUARIO_CAMBIARPASSWORD => "La contraseña se ha cambiado exitosamente",
     ];
   }
 

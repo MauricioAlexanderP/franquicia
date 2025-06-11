@@ -23,6 +23,7 @@ $productos = $this->d['productos'];
   <nav class="sidebar">
     <h4><i class="bi bi-shop-window me-2"></i>Mi Tienda</h4>
     <a href="<?php echo constant('URL'); ?>ventas"><i class="bi bi-house-door-fill"></i> Inicio</a>
+    <a href="<?php echo constant('URL'); ?>perfil"><i class="bi bi-person-fill"></i> Perfil</a>
     <a href="<?php echo constant('URL'); ?>ventas"><i class="bi bi-receipt-cutoff"></i> Ventas</a>
     <a href="<?php echo constant('URL'); ?>registrarVenta"><i class="bi bi-cart2"></i> Registrar Venta</a>
     <a href="<?php echo constant('URL'); ?>logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>

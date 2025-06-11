@@ -47,6 +47,11 @@
       "role": 1
     },
     {
+      "site": "perfil",
+      "access": "private",
+      "role": 1
+    },
+    {
       "site":"inventario",
       "access":"private",
       "role": 3
@@ -58,6 +63,11 @@
     },
     {
       "site": "logout",
+      "access": "private",
+      "role": 3
+    },
+    {
+      "site": "perfil",
       "access": "private",
       "role": 3
     },
@@ -74,6 +84,11 @@
     {
       "site": "logout",
       "access":"private",
+      "role": 2
+    },
+    {
+      "site": "perfil",
+      "access": "private",
       "role": 2
     }
   ],
