@@ -43,10 +43,10 @@ $ventas = $this->d['ventas'];
                   <th>ID</th>
                   <th>Fecha</th>
                   <th>Monto Total</th>
-                  <th>Acciones</th>
+                  <!-- <th>Acciones</th> -->
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tabla">
                 <?php foreach ($ventas as $venta): ?>
                   <tr>
                     <td><?php echo $venta->getVentaId(); ?></td>
@@ -64,6 +64,9 @@ $ventas = $this->d['ventas'];
                 <?php endforeach; ?>
               </tbody>
             </table>
+            <nav>
+              <ul class="pagination justify-content-center mt-3" id="paginacion-tabla"></ul>
+            </nav>
           </div>
         </div>
       </div>
@@ -118,8 +121,13 @@ $ventas = $this->d['ventas'];
   </div>
 
   <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      paginarTabla("tabla", "paginacion-tabla", 10);
+    });
+
     function editarVenta(id, store_id, date, amount, method) {
       document.getElementById('sale_id').value = id;
       document.getElementById('store_id').value = store_id;

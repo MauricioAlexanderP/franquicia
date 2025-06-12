@@ -21,17 +21,16 @@ $tiendas = $this->d['tiendas'];
   <!-- Sidebar -->
   <nav class="sidebar">
     <h4><i class="bi bi-shop-window me-2"></i>Mi Tienda</h4>
-    <a href="<?php echo constant('URL'); ?>"><i class="bi bi-house-door-fill"></i> Inicio</a>
-    <a href="<?php echo constant('URL'); ?>perfil"><i class="bi bi-person-fill"></i> Perfil</a>
-    <a href="<?php echo constant('URL'); ?>tipoTienda"><i class="bi bi-tags-fill"></i> Tipos de Tienda</a>
+    <a href="<?php echo constant('URL'); ?>"><i class="bi bi-house-door"></i> Inicio</a>
+    <a href="<?php echo constant('URL'); ?>perfil"><i class="bi bi-person"></i> Perfil</a>
+    <a href="<?php echo constant('URL'); ?>tipoTienda"><i class="bi bi-tags"></i> Tipos de Tienda</a>
     <a href="<?php echo constant('URL'); ?>tienda"><i class="bi bi-building"></i> Tiendas</a>
     <a href="<?php echo constant('URL'); ?>tipoProducto"><i class="bi bi-box"></i> Tipos de Producto</a>
     <a href="<?php echo constant('URL'); ?>producto"><i class="bi bi-box2"></i> Productos</a>
     <a href="<?php echo constant('URL'); ?>roles"><i class="bi bi-person-gear"></i> Roles</a>
-    <a href="<?php echo constant('URL'); ?>usuarios"><i class="bi bi-people-fill"></i> Usuarios</a>
-    <a href="<?php echo constant('URL'); ?>dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
-    <!-- <a href="<?php echo constant('URL'); ?>inventario"><i class="bi bi-clipboard-data"></i> Inventario</a>
-    <a href="<?php echo constant('URL'); ?>ventas"><i class="bi bi-receipt-cutoff"></i> Ventas</a> -->
+    <a href="<?php echo constant('URL'); ?>usuarios"><i class="bi bi-people"></i> Usuarios</a>
+    <a href="<?php echo constant('URL'); ?>reportes"><i class="bi bi-speedometer2"></i> Reportes</a>
+    <a href="<?php echo constant('URL'); ?>evaluaciones"><i class="bi bi-card-checklist"></i> Evaluaciones</a>
     <a href="<?php echo constant('URL'); ?>logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
   </nav>
 
@@ -45,7 +44,24 @@ $tiendas = $this->d['tiendas'];
             <i class="bi bi-plus-circle me-1"></i> Nuevo Usuario
           </button>
         </div>
+
         <div class="card-body">
+          <!-- Filtros -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label for="filtroUsuario" class="form-label">Filtrar por Usuario</label>
+              <input type="text" id="filtroUsuario" class="form-control" placeholder="Nombre de usuario">
+            </div>
+            <div class="col-md-4">
+              <label for="filtroTienda" class="form-label">Filtrar por Tienda</label>
+              <input type="text" id="filtroTienda" class="form-control" placeholder="ID o nombre de tienda">
+            </div>
+            <div class="col-md-4">
+              <label for="filtroRol" class="form-label">Filtrar por Rol</label>
+              <input type="text" id="filtroRol" class="form-control" placeholder="ID o nombre de rol">
+            </div>
+          </div>
+
           <div class="table-responsive">
             <table class="table table-hover align-middle">
               <thead class="table-light">
@@ -53,13 +69,13 @@ $tiendas = $this->d['tiendas'];
                   <th>ID</th>
                   <th>Usuario</th>
                   <th>Email</th>
-                  <td>Telefono</td>
+                  <th>Teléfono</th>
                   <th>Tienda</th>
                   <th>Rol</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tabla">
                 <?php foreach ($usuarios as $usuario): ?>
                   <tr>
                     <td><?php echo $usuario['usuario_id']; ?></td>
@@ -69,14 +85,14 @@ $tiendas = $this->d['tiendas'];
                     <td><?php echo $usuario['tienda_id']; ?></td>
                     <td><?php echo $usuario['rol_id']; ?></td>
                     <td>
-                      <!-- Formulario Editar -->
+                      <!-- Botón Editar -->
                       <form action="<?php echo constant('URL'); ?>usuario/editar" method="POST" class="d-inline">
                         <input type="hidden" name="usuario_id" value="<?php echo $usuario['usuario_id']; ?>">
                         <button type="button" class="btn btn-edit me-1" onclick="editarUsuario(<?php echo $usuario['usuario_id']; ?>)">
                           <i class="bi bi-pencil-square"></i> Editar
                         </button>
                       </form>
-                      <!-- Formulario Eliminar -->
+                      <!-- Botón Eliminar -->
                       <form action="<?php echo constant('URL'); ?>usuarios/deleteUsuario" method="POST" class="d-inline">
                         <input type="hidden" name="usuario_id" value="<?php echo $usuario['usuario_id']; ?>">
                         <button type="button" class="btn btn-delete" onclick="eliminarUsuario(<?php echo $usuario['usuario_id']; ?>, this.form)">
@@ -88,6 +104,9 @@ $tiendas = $this->d['tiendas'];
                 <?php endforeach; ?>
               </tbody>
             </table>
+            <nav>
+              <ul class="pagination justify-content-center mt-3" id="paginacion-tabla"></ul>
+            </nav>
           </div>
         </div>
       </div>
@@ -200,8 +219,13 @@ $tiendas = $this->d['tiendas'];
   </div>
 
   <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      paginarTabla("tabla", "paginacion-tabla", 5);
+    });
+
     function editarUsuario(id) {
       fetch('<?php echo constant("URL") ?>usuarios/getUsuarioById', {
           method: 'POST',
@@ -255,6 +279,36 @@ $tiendas = $this->d['tiendas'];
       }
       e.target.value = value.slice(0, 9);
     });
+  </script>
+
+  <!-- JS para filtros -->
+  <script>
+    const filtroUsuario = document.getElementById('filtroUsuario');
+    const filtroTienda = document.getElementById('filtroTienda');
+    const filtroRol = document.getElementById('filtroRol');
+    const filas = document.querySelectorAll('#tabla tr');
+
+    function aplicarFiltros() {
+      const textoUsuario = filtroUsuario.value.toLowerCase();
+      const textoTienda = filtroTienda.value.toLowerCase();
+      const textoRol = filtroRol.value.toLowerCase();
+
+      filas.forEach(fila => {
+        const usuario = fila.cells[1].textContent.toLowerCase();
+        const tienda = fila.cells[4].textContent.toLowerCase();
+        const rol = fila.cells[5].textContent.toLowerCase();
+
+        const coincideUsuario = usuario.includes(textoUsuario);
+        const coincideTienda = tienda.includes(textoTienda);
+        const coincideRol = rol.includes(textoRol);
+
+        fila.style.display = (coincideUsuario && coincideTienda && coincideRol) ? '' : 'none';
+      });
+    }
+
+    filtroUsuario.addEventListener('input', aplicarFiltros);
+    filtroTienda.addEventListener('input', aplicarFiltros);
+    filtroRol.addEventListener('input', aplicarFiltros);
   </script>
 </body>
 

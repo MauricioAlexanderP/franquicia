@@ -65,7 +65,7 @@ $productos = $this->d['productos'];
                   <th>Tipo</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tabla">
                 <?php foreach ($productos as $producto): ?>
                   <tr>
                     <td>
@@ -76,7 +76,8 @@ $productos = $this->d['productos'];
                         data-imagen="<?php echo constant('URL') . 'public/imgs/' . $producto['imagen']; ?>"
                         data-nombre="<?php echo $producto['nombre']; ?>"
                         data-precio="<?php echo $producto['precio']; ?>"
-                        data-productoId="<?php echo $producto['producto_id']; ?>">
+                        data-productoId="<?php echo $producto['producto_id']; ?>"
+                        data-cantidad="1">
                     </td>
                     <td><?php echo $producto['producto_id']; ?></td>
                     <td><img src="<?php echo constant('URL') . 'public/imgs/' . $producto['imagen']; ?>" alt="Imagen" width="50" height="50" style="object-fit: cover;"></td>
@@ -88,6 +89,9 @@ $productos = $this->d['productos'];
                 <?php endforeach; ?>
               </tbody>
             </table>
+            <nav>
+              <ul class="pagination justify-content-center mt-3" id="paginacion-tabla"></ul>
+            </nav>
             <!-- Campo oculto para enviar los datos seleccionados -->
             <input type="hidden" name="productos_seleccionados" id="productosSeleccionados">
             <!-- Botón para agregar productos seleccionados -->
@@ -173,8 +177,12 @@ $productos = $this->d['productos'];
   </div>
 
   <!-- Bootstrap -->
+  <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      paginarTabla("tabla", "paginacion-tabla", 5);
+    });
     // Filtrado en tiempo real
     function filtrarTabla() {
       const inputNombre = document.getElementById('buscarNombre').value.toLowerCase();
@@ -231,7 +239,8 @@ $productos = $this->d['productos'];
           id: checkbox.dataset.id,
           imagen: checkbox.dataset.imagen,
           nombre: checkbox.dataset.nombre,
-          precio: checkbox.dataset.precio
+          precio: checkbox.dataset.precio,
+          cantidad: checkbox.dataset.cantidad || 1
         };
         productosSeleccionados.push(producto);
       });

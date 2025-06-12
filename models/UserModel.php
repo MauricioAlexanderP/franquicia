@@ -143,7 +143,7 @@ class UserModel extends Model implements IModel
     $items = [];
     try {
       $query = $this->db->consulta(
-        "SELECT u.usuario_id, t.ubicacion as tienda_id , r.nombre_rol as rol_id, u.nombre_usuario, u.correo, u.contraseña, u.telefono, u.estado
+        "SELECT u.usuario_id, t.nombre_tienda as tienda_id , r.nombre_rol as rol_id, u.nombre_usuario, u.correo, u.contraseña, u.telefono, u.estado
         FROM usuario u
         INNER JOIN tienda t on u.tienda_id = t.tienda_id
         INNER JOIN rol r on u.rol_id = r.rol_id

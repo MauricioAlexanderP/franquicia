@@ -40,9 +40,11 @@ if (isset($_SESSION['notificacion_global']) && $_SESSION['notificacion_global'][
   <nav class="sidebar">
     <h4><i class="bi bi-shop-window me-2"></i>Mi Tienda</h4>
     <a href="#"><i class="bi bi-house-door-fill"></i> Inicio</a>
-    <a href="<?php echo constant('URL'); ?>perfil"><i class="bi bi-person-fill"></i> Perfil</a>
+    <a href="<?php echo constant('URL'); ?>perfil"><i class="bi bi-person"></i> Perfil</a>
     <a href="<?php echo constant('URL'); ?>productosInventario"><i class="bi bi-box2"></i> Productos</a>
     <a href="<?php echo constant('URL'); ?>inventario"><i class="bi bi-clipboard-data"></i> Inventario</a>
+    <a href="<?php echo constant('URL'); ?>dashboard"><i class="bi bi-bar-chart"></i> Dashboard</a>
+    <a href="<?php echo constant('URL'); ?>evaluaciones"><i class="bi bi-card-checklist"></i> Evaluaciones</a>
     <a href="<?php echo constant('URL'); ?>logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
   </nav>
 
@@ -52,11 +54,20 @@ if (isset($_SESSION['notificacion_global']) && $_SESSION['notificacion_global'][
       <div class="card shadow">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0"><i class="bi bi-clipboard-data me-2"></i>Inventario</h5>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInventario">
-            <i class="bi bi-plus-circle me-1"></i> Nuevo Registro
-          </button>
         </div>
         <div class="card-body">
+          <!-- Filtros -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="filtroProducto" class="form-label">Filtrar por Producto</label>
+              <input type="text" id="filtroProducto" class="form-control" placeholder="Nombre del producto">
+            </div>
+            <div class="col-md-6">
+              <label for="filtroCantidad" class="form-label">Filtrar por Cantidad</label>
+              <input type="number" id="filtroCantidad" class="form-control" placeholder="Cantidad exacta o parcial">
+            </div>
+          </div>
+
           <div class="table-responsive">
             <table class="table table-hover align-middle">
               <thead class="table-light">
@@ -67,18 +78,19 @@ if (isset($_SESSION['notificacion_global']) && $_SESSION['notificacion_global'][
                   <th>Acciones</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tabla">
                 <?php foreach ($inventario as $item): ?>
                   <tr>
                     <td><?php echo $item['producto_id'] ?></td>
-                    <td><img src="<?php echo constant('URL') . 'public/imgs/' . $item['imagen'] ?>" width="50" height="50" style="object-fit: cover;"></td>
+                    <td>
+                      <img src="<?php echo constant('URL') . 'public/imgs/' . $item['imagen'] ?>" width="50" height="50" style="object-fit: cover;">
+                    </td>
                     <td><?php echo $item['stock'] ?></td>
                     <td>
                       <!-- Formulario Editar -->
                       <form method="POST" class="d-inline">
                         <input type="hidden" name="tienda_id" value="<?php echo $item['tienda_id']; ?>">
                         <input type="hidden" name="producto_id" value="<?php echo $item['producto_id']; ?>">
-                        <!-- <input type="hidden" name="inventario_id" value="<?php echo $item['inventario_id']; ?>"> -->
                         <button type="button" class="btn btn-edit me-1" onclick="editarInventario(<?php echo $item['tienda_id']; ?>, <?php echo $item['nombre']; ?>)">
                           <i class="bi bi-pencil-square"></i> Editar
                         </button>
@@ -95,6 +107,9 @@ if (isset($_SESSION['notificacion_global']) && $_SESSION['notificacion_global'][
                 <?php endforeach; ?>
               </tbody>
             </table>
+            <nav>
+              <ul class="pagination justify-content-center mt-3" id="paginacion-tabla"></ul>
+            </nav>
           </div>
         </div>
       </div>
@@ -143,6 +158,7 @@ if (isset($_SESSION['notificacion_global']) && $_SESSION['notificacion_global'][
 
 
   <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     function editarInventario(tienda_id, producto_id) {
@@ -203,7 +219,34 @@ if (isset($_SESSION['notificacion_global']) && $_SESSION['notificacion_global'][
         }
       });
     }
+    document.addEventListener("DOMContentLoaded", function() {
+      paginarTabla("tabla", "paginacion-tabla", 10);
+    });
   </script>
+  <!-- JavaScript para filtros -->
+<script>
+  const filtroProducto = document.getElementById('filtroProducto');
+  const filtroCantidad = document.getElementById('filtroCantidad');
+  const filas = document.querySelectorAll('#tabla tr');
+
+  function aplicarFiltrosInventario() {
+    const textoProducto = filtroProducto.value.toLowerCase();
+    const textoCantidad = filtroCantidad.value.toLowerCase();
+
+    filas.forEach(fila => {
+      const producto = fila.cells[0].textContent.toLowerCase();
+      const cantidad = fila.cells[2].textContent.toLowerCase();
+
+      const coincideProducto = producto.includes(textoProducto);
+      const coincideCantidad = cantidad.includes(textoCantidad);
+
+      fila.style.display = (coincideProducto && coincideCantidad) ? '' : 'none';
+    });
+  }
+
+  filtroProducto.addEventListener('input', aplicarFiltrosInventario);
+  filtroCantidad.addEventListener('input', aplicarFiltrosInventario);
+</script>
 </body>
 
 </html>

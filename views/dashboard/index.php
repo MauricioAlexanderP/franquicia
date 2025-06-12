@@ -276,7 +276,7 @@ $metricas = $dashboard['metricas_generales'];
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                 <div class="card bg-light">
                   <div class="card-body text-center">
                     <i class="bi bi-people fs-1 text-warning"></i>
@@ -284,7 +284,7 @@ $metricas = $dashboard['metricas_generales'];
                     <p class="mb-0">Usuarios</p>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

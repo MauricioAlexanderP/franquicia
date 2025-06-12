@@ -19,17 +19,16 @@ $tipoTienda = $this->d['tipoTienda'];
   <!-- Sidebar -->
   <nav class="sidebar">
     <h4><i class="bi bi-shop-window me-2"></i>Mi Tienda</h4>
-    <a href="<?php echo constant('URL'); ?>"><i class="bi bi-house-door-fill"></i> Inicio</a>
-    <a href="<?php echo constant('URL'); ?>perfil"><i class="bi bi-person-fill"></i> Perfil</a>
-    <a href="<?php echo constant('URL'); ?>tipoTienda"><i class="bi bi-tags-fill"></i> Tipos de Tienda</a>
+    <a href="<?php echo constant('URL'); ?>"><i class="bi bi-house-door"></i> Inicio</a>
+    <a href="<?php echo constant('URL'); ?>perfil"><i class="bi bi-person"></i> Perfil</a>
+    <a href="<?php echo constant('URL'); ?>tipoTienda"><i class="bi bi-tags"></i> Tipos de Tienda</a>
     <a href="<?php echo constant('URL'); ?>tienda"><i class="bi bi-building"></i> Tiendas</a>
     <a href="<?php echo constant('URL'); ?>tipoProducto"><i class="bi bi-box"></i> Tipos de Producto</a>
     <a href="<?php echo constant('URL'); ?>producto"><i class="bi bi-box2"></i> Productos</a>
     <a href="<?php echo constant('URL'); ?>roles"><i class="bi bi-person-gear"></i> Roles</a>
-    <a href="<?php echo constant('URL'); ?>usuarios"><i class="bi bi-people-fill"></i> Usuarios</a>
-    <a href="<?php echo constant('URL'); ?>dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
-    <!-- <a href="<?php echo constant('URL'); ?>inventario"><i class="bi bi-clipboard-data"></i> Inventario</a>
-    <a href="<?php echo constant('URL'); ?>ventas"><i class="bi bi-receipt-cutoff"></i> Ventas</a> -->
+    <a href="<?php echo constant('URL'); ?>usuarios"><i class="bi bi-people"></i> Usuarios</a>
+    <a href="<?php echo constant('URL'); ?>reportes"><i class="bi bi-speedometer2"></i> Reportes</a>
+    <a href="<?php echo constant('URL'); ?>evaluaciones"><i class="bi bi-card-checklist"></i> Evaluaciones</a>
     <a href="<?php echo constant('URL'); ?>logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
   </nav>
 
@@ -54,7 +53,7 @@ $tipoTienda = $this->d['tipoTienda'];
                   <th>Acciones</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tabla">
                 <?php foreach ($tipoTienda as $tipo): ?>
                   <tr>
                     <td><?php echo $tipo['tipo_tienda_id']; ?></td>
@@ -82,6 +81,9 @@ $tipoTienda = $this->d['tipoTienda'];
                 <?php endforeach; ?>
               </tbody>
             </table>
+            <nav>
+                <ul class="pagination justify-content-center mt-3" id="paginacion-tabla"></ul>
+              </nav>
           </div>
         </div>
       </div>
@@ -150,8 +152,13 @@ $tipoTienda = $this->d['tipoTienda'];
   </div>
 
   <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      paginarTabla("tabla", "paginacion-tabla", 10);
+    });
+    
     function editarTipo(id) {
       fetch('<?php echo constant("URL") ?>tipoTienda/getTipoTiendaById', {
           method: 'POST',

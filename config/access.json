@@ -47,6 +47,16 @@
       "role": 1
     },
     {
+      "site": "reportes",
+      "access": "private",
+      "role": 1
+    },
+    {
+      "site": "evaluaciones",
+      "access": "private",
+      "role": 1
+    },
+    {
       "site": "perfil",
       "access": "private",
       "role": 1
@@ -58,6 +68,16 @@
     },
     {
       "site": "productosInventario",
+      "access": "private",
+      "role": 3
+    },
+    {
+      "site": "dashboard",
+      "access": "private",
+      "role": 3
+    },
+    {
+      "site": "evaluaciones",
       "access": "private",
       "role": 3
     },

@@ -20,16 +20,16 @@ $productos = $this->d['productos'];
   <!-- Sidebar -->
   <nav class="sidebar">
     <h4><i class="bi bi-shop-window me-2"></i>Mi Tienda</h4>
-    <a href="<?php echo constant('URL'); ?>"><i class="bi bi-house-door-fill"></i> Inicio</a>
-    <a href="<?php echo constant('URL'); ?>perfil"><i class="bi bi-person-fill"></i> Perfil</a>
-    <a href="<?php echo constant('URL'); ?>tipoTienda"><i class="bi bi-tags-fill"></i> Tipos de Tienda</a>
+    <a href="<?php echo constant('URL'); ?>"><i class="bi bi-house-door"></i> Inicio</a>
+    <a href="<?php echo constant('URL'); ?>perfil"><i class="bi bi-person"></i> Perfil</a>
+    <a href="<?php echo constant('URL'); ?>tipoTienda"><i class="bi bi-tags"></i> Tipos de Tienda</a>
     <a href="<?php echo constant('URL'); ?>tienda"><i class="bi bi-building"></i> Tiendas</a>
     <a href="<?php echo constant('URL'); ?>tipoProducto"><i class="bi bi-box"></i> Tipos de Producto</a>
     <a href="<?php echo constant('URL'); ?>producto"><i class="bi bi-box2"></i> Productos</a>
     <a href="<?php echo constant('URL'); ?>roles"><i class="bi bi-person-gear"></i> Roles</a>
-    <a href="<?php echo constant('URL'); ?>usuarios"><i class="bi bi-people-fill"></i> Usuarios</a>
-    <a href="<?php echo constant('URL'); ?>dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
-    <!-- <a href="<?php echo constant('URL'); ?>ventas"><i class="bi bi-receipt-cutoff"></i> Ventas</a> -->
+    <a href="<?php echo constant('URL'); ?>usuarios"><i class="bi bi-people"></i> Usuarios</a>
+    <a href="<?php echo constant('URL'); ?>reportes"><i class="bi bi-speedometer2"></i> Reportes</a>
+    <a href="<?php echo constant('URL'); ?>evaluaciones"><i class="bi bi-card-checklist"></i> Evaluaciones</a>
     <a href="<?php echo constant('URL'); ?>logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
   </nav>
 
@@ -57,7 +57,7 @@ $productos = $this->d['productos'];
                   <th>Acciones</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tabla">
                 <?php foreach ($productos as $producto): ?>
                   <tr>
                     <td><?php echo $producto['producto_id']; ?></td>
@@ -66,7 +66,7 @@ $productos = $this->d['productos'];
                     </td>
                     <td><?php echo $producto['nombre']; ?></td>
                     <td><?php echo $producto['descripcion']; ?></td>
-                    <td><?php echo $producto['precio']; ?></td>
+                    <td>$<?php echo $producto['precio']; ?></td>
                     <td><?php echo $producto['tipo_producto']; ?></td>
                     <td>
                       <!-- Formulario Editar -->
@@ -88,6 +88,9 @@ $productos = $this->d['productos'];
                 <?php endforeach; ?>
               </tbody>
             </table>
+            <nav>
+              <ul class="pagination justify-content-center mt-3" id="paginacion-tabla"></ul>
+            </nav>
           </div>
         </div>
       </div>
@@ -145,53 +148,58 @@ $productos = $this->d['productos'];
   </div>
 
 
-<!-- FORMULARIO PARA EDITAR -->
-<div class="modal fade" id="modalProductoEditar" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content shadow-sm">
-      <div class="modal-header">
-        <h5 class="modal-title">Editar Producto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <form method="post" action="<?php echo constant('URL'); ?>producto/updateProducto" id="formProductoEditar">
-          <input type="hidden" name="producto_id" id="editar_producto_id">
-          <div class="mb-3">
-            <label class="form-label">Tipo de Producto</label>
-            <select class="form-select" name="tipoProducto" id="editar_tipoProducto" required>
-              <option selected disabled value="">Seleccione</option>
-              <?php foreach ($tipoProducto as $tipo): ?>
-                <option value="<?php echo $tipo['tipo_producto_id']; ?>"><?php echo $tipo['catalogo']; ?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="nombre" id="editar_nombre" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Descripción</label>
-            <textarea class="form-control" name="descripcion" id="editar_descripcion" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Precio</label>
-            <input type="number" class="form-control" name="precio" id="editar_precio" required>
-          </div>
-          <!-- Puedes agregar aquí el campo para imagen si lo deseas -->
-          <div class="d-grid">
-            <button type="submit" class="btn btn-primary">
-              <i class="bi bi-arrow-clockwise me-1"></i> Actualizar
-            </button>
-          </div>
-        </form>
+  <!-- FORMULARIO PARA EDITAR -->
+  <div class="modal fade" id="modalProductoEditar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content shadow-sm">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="<?php echo constant('URL'); ?>producto/updateProducto" id="formProductoEditar">
+            <input type="hidden" name="producto_id" id="editar_producto_id">
+            <div class="mb-3">
+              <label class="form-label">Tipo de Producto</label>
+              <select class="form-select" name="tipoProducto" id="editar_tipoProducto" required>
+                <option selected disabled value="">Seleccione</option>
+                <?php foreach ($tipoProducto as $tipo): ?>
+                  <option value="<?php echo $tipo['tipo_producto_id']; ?>"><?php echo $tipo['catalogo']; ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" name="nombre" id="editar_nombre" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" name="descripcion" id="editar_descripcion" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Precio</label>
+              <input type="number" class="form-control" name="precio" id="editar_precio" required>
+            </div>
+            <!-- Puedes agregar aquí el campo para imagen si lo deseas -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-arrow-clockwise me-1"></i> Actualizar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      paginarTabla("tabla", "paginacion-tabla", 5);
+    });
+    
     function editarProducto(id) {
       console.log('producto_id=' + id);
       fetch('<?php echo constant("URL") ?>producto/getProductoById', {
@@ -200,7 +208,7 @@ $productos = $this->d['productos'];
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           body: 'producto_id=' + id
-          
+
         })
         .then(response => response.json())
         .then(data => {

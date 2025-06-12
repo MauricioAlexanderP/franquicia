@@ -8,6 +8,7 @@ use models\UserModel;
 use libs\Model;
 use models\ProductoModel;
 use models\DetalleVentaModel;
+use models\TiendaModel;
 use class\ErrorMessages;
 use class\SuccessMessages;
 use controllers\SessionController;
@@ -95,15 +96,23 @@ class VentasController extends SessionController
 
     try {
       $total = 0;
+      print_r($_SESSION['carrito']);
       foreach ($_SESSION['carrito'] as $producto) {
         $total += $producto['precio'] * $producto['cantidad'];
       }
+
+      // Calcular regalias según porcentaje definido en la tienda
+      $tiendaModel = new TiendaModel();
+      $tienda = $tiendaModel->get($tienda_id);
+      $porcentajeRegalias = $tienda->getRegalias(); // Convertir porcentaje a decimal
+      $regalias = $total * $porcentajeRegalias;
 
       // 2. Guardar la venta principal
       $venta = new VentasModel();
       $venta->setTiendaId($tienda_id);
       $venta->setFechaVenta(date('Y-m-d H:i:s'));
       $venta->setMontoTotal($total);
+      $venta->setRegalias($regalias / 100); // Guardar regalias como decimal
 
       if (!$venta->save()) {
         throw new \Exception("Error al guardar la venta principal");
@@ -122,11 +131,13 @@ class VentasController extends SessionController
         $detalleVentaModel->setCantidad($producto['cantidad']);
         $detalleVentaModel->setPrecioUnitario($producto['precio']);
 
+        //descomentar
         if (!$detalleVentaModel->save()) {
           throw new \Exception("Error al guardar detalle de venta");
         }
 
-        // Actualizar stock
+        // Actualizar stock descomentar
+        error_log("VENTASCONTROLLER::newVenta -> Actualizando stock: tienda " . $tienda_id . ", producto " . $producto['id'] . ", cantidad " . $producto['cantidad']);
         if (!$productoModel->actualizarStock($tienda_id, $producto['id'], $producto['cantidad'])) {
           throw new \Exception("Error al actualizar stock");
         }

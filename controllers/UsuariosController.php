@@ -32,7 +32,7 @@ class UsuariosController extends SessionController
   public function render()
   {
     error_log("USUARIOSCONTROLLER::render -> cargar index");
-    //error_log("USUARIOSCONTROLLER::render -> tipoProducto: " . print_r($this->getTipoProducto(), true));
+    error_log("USUARIOSCONTROLLER::render -> tipoProducto: " . print_r($this->getTienda(), true));
     $this->view->render('usuarios/index', [
       'tiendas' => $this->getTienda(),
       'roles' => $this->getRol(),
@@ -62,10 +62,11 @@ class UsuariosController extends SessionController
   {
     $items = [];
     $tiendas = $this->tienda->getAll();
+    error_log("USUARIOSCONTROLLER::getTienda -> cargar tiendas" . print_r($tiendas, true));
     foreach ($tiendas as $tienda) {
       array_push($items, [
         'tienda_id' => $tienda->getTiendaId(),
-        'nombre' => $tienda->getUbicacion() . ' - ' . $tienda->getEncargado(),
+        'nombre' => $tienda->getNombreTienda(),
       ]);
     }
     return $items;
