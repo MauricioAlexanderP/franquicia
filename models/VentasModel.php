@@ -12,6 +12,7 @@ class VentasModel extends Model implements IModel
   private $tienda_id;
   private $fecha_venta;
   private $monto_total;
+  private $regalias;
 
   public function __construct()
   {
@@ -20,12 +21,13 @@ class VentasModel extends Model implements IModel
     $this->tienda_id = null;
     $this->fecha_venta = date('Y-m-d H:i:s');
     $this->monto_total = 0;
+    $this->regalias = 0; // Inicializar regalias si es necesario
   }
   public function save()
   {
     try {
-      $sql = "INSERT INTO venta (tienda_id, fecha_venta, monto_total)
-              VALUES ('$this->tienda_id', '$this->fecha_venta', '$this->monto_total')";
+      $sql = "INSERT INTO venta (tienda_id, fecha_venta, monto_total, regalias)
+              VALUES ('$this->tienda_id', '$this->fecha_venta', '$this->monto_total', '$this->regalias')";
       $this->db->consulta($sql);
       return true;
     } catch (\Throwable $th) {
@@ -45,6 +47,7 @@ class VentasModel extends Model implements IModel
         $item->setTiendaId($p['tienda_id']);
         $item->setFechaVenta($p['fecha_venta']);
         $item->setMontoTotal($p['monto_total']);
+        $item->setRegalias($p['regalias']);
         array_push($items, $item);
       }
     } catch (\Throwable $th) {
@@ -64,6 +67,7 @@ class VentasModel extends Model implements IModel
         $item->setTiendaId($p['tienda_id']);
         $item->setFechaVenta($p['fecha_venta']);
         $item->setMontoTotal($p['monto_total']);
+        $item->setRegalias($p['regalias']);
         array_push($items, $item);
       }
     } catch (\Throwable $th) {
@@ -82,6 +86,7 @@ class VentasModel extends Model implements IModel
       $this->setTiendaId($venta['tienda_id']);
       $this->setFechaVenta($venta['fecha_venta']);
       $this->setMontoTotal($venta['monto_total']);
+      $this->setRegalias($venta['regalias']);
       return $this;
     } catch (\Throwable $th) {
       error_log("VENTASMODEL::get -> Error: " . $th->getMessage());
@@ -105,7 +110,7 @@ class VentasModel extends Model implements IModel
   {
     try {
       $query = "UPDATE venta SET tienda_id = '$this->tienda_id', 
-      fecha_venta = '$this->fecha_venta', monto_total = '$this->monto_total' WHERE venta_id = '$this->venta_id'";
+      fecha_venta = '$this->fecha_venta', monto_total = '$this->monto_total', regalias = '$this->regalias' WHERE venta_id = '$this->venta_id'";
       $this->db->consulta($query);
       return true;
     } catch (\Throwable $th) {
@@ -120,6 +125,7 @@ class VentasModel extends Model implements IModel
     $this->tienda_id = $array['tienda_id'];
     $this->fecha_venta = $array['fecha_venta'];
     $this->monto_total = $array['monto_total'];
+    $this->regalias = $array['regalias'] ?? 0; // Default to 0 if not set
     return $this;
   }
   public function toArray()
@@ -181,6 +187,14 @@ class VentasModel extends Model implements IModel
     return $result['total'] ?? 0;
   }
 
+  public function setRegalias($regalias)
+  {
+    $this->regalias = $regalias;
+  }
+  public function getRegalias()
+  {
+    return $this->regalias;
+  }
   public function getLastInsertId()
   {
     return $this->db->getLastInsertId();

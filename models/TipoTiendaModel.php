@@ -29,7 +29,7 @@ class TipoTiendaModel extends Model implements IModel
    */
   private $descripcion;
 
-  private $estado;
+  private $estado = 1;
 
   /**
    * Constructor de la clase TipoTiendaModel.

@@ -4,6 +4,7 @@ $fechaInicio = $this->d['fechaInicio'];
 $fechaFin = $this->d['fechaFin'];
 $tiendaId = $this->d['tiendaId'];
 $tipoReporte = $this->d['tipoReporte'];
+error_log("reporte: " . print_r($reporte, true));
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +14,7 @@ $tipoReporte = $this->d['tipoReporte'];
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Evaluaciones de Clientes</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     .report-header {

@@ -52,6 +52,11 @@
       "role": 1
     },
     {
+      "site": "evaluaciones",
+      "access": "private",
+      "role": 1
+    },
+    {
       "site": "perfil",
       "access": "private",
       "role": 1
@@ -68,6 +73,11 @@
     },
     {
       "site": "dashboard",
+      "access": "private",
+      "role": 3
+    },
+    {
+      "site": "evaluaciones",
       "access": "private",
       "role": 3
     },

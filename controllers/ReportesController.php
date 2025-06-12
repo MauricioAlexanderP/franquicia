@@ -71,6 +71,11 @@ class ReportesController extends SessionController
       case 'evaluaciones':
         $reporte = $this->reportesModel->getEvaluaciones($fechaInicio, $fechaFin, $tiendaId);
         $vista = 'reportes/evaluaciones';
+        // calcular promedio de calificaciones
+        if (!empty($reporte)) {
+          $suma      = array_sum(array_column($reporte, 'calificacion'));
+          $promedio  = $suma / count($reporte);
+        }
         break;
 
       default:
@@ -85,7 +90,8 @@ class ReportesController extends SessionController
       'fechaInicio' => $fechaInicio,
       'fechaFin' => $fechaFin,
       'tiendaId' => $tiendaId,
-      'tipoReporte' => $tipoReporte
+      'tipoReporte' => $tipoReporte,
+      'promedio' => $promedio ?? 0,
     ]);
   }
 

@@ -59,7 +59,7 @@ class ReportesModel extends Model
 
     $query .= " GROUP BY p.nombre
                   ORDER BY total_vendido DESC
-                  LIMIT 20";
+                  LIMIT 10";
 
     return $this->db->consulta($query)->fetch_all(MYSQLI_ASSOC);
   }
@@ -68,7 +68,7 @@ class ReportesModel extends Model
   {
     $query = "SELECT e.calificacion, e.comentario, e.fecha_Evaluacion, 
                         t.nombre_tienda, u.nombre_usuario as evaluador
-                  FROM Evaluaciones e
+                  FROM evaluaciones e
                   JOIN tienda t ON e.tienda_id = t.tienda_id
                   JOIN usuario u ON e.usuario_id = u.usuario_id
                   WHERE e.fecha_Evaluacion BETWEEN '$fechaInicio' AND '$fechaFin'";

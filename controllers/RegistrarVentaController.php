@@ -71,11 +71,11 @@ class RegistrarVentaController extends SessionController
 
     // Crear o actualizar la sesión 'carrito'
     if (!isset($_SESSION['carrito'])) {
-      $_SESSION['carrito'] = [];
+      $_SESSION['carrito'] = [];;
     }
     foreach ($productosSeleccionados as $producto) {
       // Validar que el producto tenga los campos necesarios
-      if (!isset($producto['id'], $producto['imagen'], $producto['nombre'], $producto['precio'])) {
+      if (!isset($producto['id'], $producto['imagen'], $producto['nombre'], $producto['precio'], $producto['cantidad'])) {
         continue; // Ignorar productos inválidos
       }
 

@@ -99,7 +99,7 @@ class TiendaController extends SessionController
   public function updateTienda()
   {
     error_log("TIENDACONTROLLLER::updateTienda");
-    if (!$this->existPOST(['tienda_id', 'tipo_tienda_id', 'ubicacion', 'encargado', 'telefono', 'hora_entrada', 'hora_salida', 'nombre_tienda'])) {
+    if (!$this->existPOST(['tienda_id', 'tipo_tienda_id', 'ubicacion', 'encargado', 'telefono', 'hora_entrada', 'hora_salida', 'nombre_tienda', 'regalias'])) {
       echo json_encode(['error' => ErrorMessages::ERROR_TIENDA_UPDATETIENDA_DATOSFALTANTES]);
       return;
     }
@@ -113,6 +113,7 @@ class TiendaController extends SessionController
     $tienda->setHoraEntrada($this->getPost('hora_entrada'));
     $tienda->setHoraSalida($this->getPost('hora_salida'));
     $tienda->setNombreTienda($this->getPost('nombre_tienda'));
+    $tienda->setRegalias($this->getPost('regalias'));
 
     $tienda->update();
     $this->redirect('tienda', ['success' => SuccessMessages::SUCCESS_TIENDA_UPDATE_GUARDADDA]);

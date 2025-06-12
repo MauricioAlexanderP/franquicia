@@ -16,6 +16,7 @@ class TiendaModel extends Model implements IModel
   private $hora_entrada;
   private $hora_salida;
   private $estado;
+  private $regalias;
 
   public function __construct()
   {
@@ -28,13 +29,15 @@ class TiendaModel extends Model implements IModel
     $this->hora_entrada = '';
     $this->hora_salida = '';
     $this->estado = 1;
+    $this->regalias = 0;
+    
   }
   public function save()
   {
     try {
-      $query = "INSERT INTO tienda (tipo_tienda_id, ubicacion, encargado, telefono, hora_entrada, hora_salida, nombre_tienda) 
+      $query = "INSERT INTO tienda (tipo_tienda_id, ubicacion, encargado, telefono, hora_entrada, hora_salida, nombre_tienda, regalias) 
       VALUES ('$this->tipo_tienda_id', '$this->ubicacion', '$this->encargado', '$this->telefono', '
-                $this->hora_entrada', '$this->hora_salida', '$this->nombre_tienda')";
+                $this->hora_entrada', '$this->hora_salida', '$this->nombre_tienda', '$this->regalias')";
       $this->db->consulta($query);
       return true;
     } catch (\Throwable $th) {
@@ -52,14 +55,15 @@ class TiendaModel extends Model implements IModel
 
       while ($p = $query->fetch_assoc()) {
         $item = new TiendaModel();
-        $item->setId($p['tienda_id']);
-        $item->setTiendaId($p['tipo_tienda_id']);
+        $item->setTiendaId($p['tienda_id']);
+        $item->setTipoTiendaId($p['tipo_tienda_id']);
         $item->setNombreTienda($p['nombre_tienda']);
         $item->setUbicacion($p['ubicacion']);
         $item->setEncargado($p['encargado']);
         $item->setTelefono($p['telefono']);
         $item->setHoraEntrada($p['hora_entrada']);
         $item->setHoraSalida($p['hora_salida']);
+        $item->setRegalias($p['regalias']);
         array_push($items, $item);
       }
     } catch (\Throwable $th) {
@@ -84,6 +88,7 @@ class TiendaModel extends Model implements IModel
       $this->setTelefono($tienda['telefono']);
       $this->setHoraEntrada($tienda['hora_entrada']);
       $this->setHoraSalida($tienda['hora_salida']);
+      $this->setRegalias($tienda['regalias']);
       return $this;
     } catch (\Throwable $th) {
       error_log("TIENDAMODEL::get -> Error: " . $th->getMessage());
@@ -110,11 +115,12 @@ class TiendaModel extends Model implements IModel
       ubicacion = '$this->ubicacion', encargado = '$this->encargado', 
       telefono = '$this->telefono', hora_entrada = '$this->hora_entrada',
       estado = '$this->estado', 
-      hora_salida = '$this->hora_salida', nombre_tienda = '$this->nombre_tienda' WHERE tienda_id = '$this->tienda_id'";
+      hora_salida = '$this->hora_salida', nombre_tienda = '$this->nombre_tienda', 
+      regalias = '$this->regalias' WHERE tienda_id = '$this->tienda_id'";
       $rs = $this->db->consulta($query);
       $tienda = $rs->fetch_assoc();
 
-      $this->setId($tienda['tienda_id']);
+      $this->setTiendaId($tienda['tienda_id']);
       $this->setTipoTiendaId($tienda['tipo_tienda_id']);
       $this->setUbicacion($tienda['ubicacion']);
       $this->setEncargado($tienda['encargado']);
@@ -122,6 +128,7 @@ class TiendaModel extends Model implements IModel
       $this->setHoraEntrada($tienda['hora_entrada']);
       $this->setHoraSalida($tienda['hora_salida']);
       $this->setNombreTienda($tienda['nombre_tienda']);
+      $this->setRegalias($tienda['regalias']);
       return $this;
     } catch (\Throwable $th) {
       error_log("TIENDAMODEL::update -> Error: " . $th->getMessage());
@@ -139,6 +146,7 @@ class TiendaModel extends Model implements IModel
     $this->hora_entrada = $array['hora_entrada'];
     $this->hora_salida = $array['hora_salida'];
     $this->nombre_tienda = $array['nombre_tienda'];
+    $this->regalias = $array['regalias'] ?? 0; // Default to 0 if not set
     return $this;
   }
 
@@ -153,6 +161,7 @@ class TiendaModel extends Model implements IModel
       'hora_entrada' => $this->hora_entrada,
       'hora_salida' => $this->hora_salida,
       'nombre_tienda' => $this->nombre_tienda,
+      'regalias' => $this->regalias,
     ];
   }
 
@@ -164,7 +173,7 @@ class TiendaModel extends Model implements IModel
       // Consulta con JOIN para obtener datos de la tienda y el tipo de tienda
       $query = $this->db->consulta(
         "
-            SELECT t.tienda_id, t.nombre_tienda , tt.tipo AS tipo_tienda_id, tt.tipo_tienda_id as tipo_id, t.ubicacion,t.encargado, t.telefono, t.hora_entrada, t.hora_salida
+            SELECT t.tienda_id, t.nombre_tienda , tt.tipo AS tipo_tienda_id, tt.tipo_tienda_id as tipo_id, t.ubicacion,t.encargado, t.telefono, t.hora_entrada, t.hora_salida, t.regalias
             FROM tienda t
             INNER JOIN tipo_tienda tt ON t.tipo_tienda_id = tt.tipo_tienda_id
             WHERE t.estado = 1
@@ -182,6 +191,7 @@ class TiendaModel extends Model implements IModel
           'hora_entrada' => $row['hora_entrada'],
           'hora_salida' => $row['hora_salida'],
           'nombre_tienda' => $row['nombre_tienda'],
+          'regalias' => $row['regalias'],
         ];
         array_push($items, $item);
       }
@@ -201,6 +211,14 @@ class TiendaModel extends Model implements IModel
   }
 
   //GETTERS Y SETTERS
+  public function getRegalias()
+  {
+    return $this->regalias;
+  }
+  public function setRegalias($regalias)
+  {
+    $this->regalias = $regalias;
+  }
   public function getTiendaId()
   {
     return $this->tienda_id;

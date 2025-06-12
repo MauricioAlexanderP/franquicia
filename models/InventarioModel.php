@@ -23,7 +23,7 @@ class InventarioModel extends Model implements IModel
     $this->inventario_id = null;
     $this->tienda_id = null;
     $this->producto_id = null;
-    $this->stock = 0;
+    $this->stock = 10;
     $this->stock_minimo = 10;
     $this->estado = 1; // Activo
     $this->ultima_actualizacion = date('Y-m-d');
